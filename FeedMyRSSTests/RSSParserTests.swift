@@ -139,4 +139,31 @@ struct RSSParserTests {
             Issue.record("Unexpected error: \(error)")
         }
     }
+    
+    @Test func parseFeedWithCDATA() async throws {
+        let RSSData = """
+        <rss>
+            <channel>
+                <title><![CDATA[CDATA Feed]]></title>
+                <description><![CDATA[Description with CDATA]]></description>
+                <item>
+                    <title><![CDATA[Item with CDATA]]></title>
+                    <description><![CDATA[Item description with CDATA]]></description>
+                    <link><![CDATA[https://example.com/cdata]]></link>
+                </item>
+            </channel>
+        </rss>
+        """.data(using: .utf8)!
+        
+        let feed = try await sut.parseRSS(data: RSSData)
+        
+        #expect(feed.title == "CDATA Feed")
+        #expect(feed.description == "Description with CDATA")
+        #expect(feed.items.count == 1)
+        
+        let item = feed.items[0]
+        #expect(item.title == "Item with CDATA")
+        #expect(item.description == "Item description with CDATA")
+        #expect(item.linkURL == URL(string: "https://example.com/cdata"))
+    }
 }
