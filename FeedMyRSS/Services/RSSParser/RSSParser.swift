@@ -17,6 +17,10 @@ class RSSParser: NSObject {
         case url
     }
     
+    typealias RSSFeedResult = Result<RSSFeed, RSSParserError>
+    
+    private var completion: ((RSSFeedResult) -> Void)?
+    
 }
 
 extension RSSParser: XMLParserDelegate {
