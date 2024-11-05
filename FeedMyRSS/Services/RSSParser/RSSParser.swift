@@ -19,7 +19,19 @@ class RSSParser: NSObject {
     
     typealias RSSFeedResult = Result<RSSFeed, RSSParserError>
     
+    private var feed = RSSFeed()
+    private var currentItem: RSSItem?
+    private var currentElement = ""
+    private var currentText = ""
+    
     private var completion: ((RSSFeedResult) -> Void)?
+    
+    func parse(data: Data, completion: @escaping (RSSFeedResult) -> Void) {
+        self.completion = completion
+        let parser = XMLParser(data: data)
+        parser.delegate = self
+        parser.parse()
+    }
     
 }
 
