@@ -58,7 +58,7 @@ struct RSSParserTests {
         #expect(item2.imageURL == URL(string: "https://example.com/image2.jpg"))
     }
     
-    @Test func testParseEmptyRSSFeed() async throws {
+    @Test func parseEmptyRSSFeed() async throws {
         let RSSData = """
         <rss>
             <channel>
@@ -71,6 +71,33 @@ struct RSSParserTests {
         #expect(feed.title == "")
         #expect(feed.description == "")
         #expect(feed.items.count == 0)
+    }
+    
+    @Test func parseMissingElements() async throws {
+        let RSSData = """
+        <rss>
+            <channel>
+                <title>Missing Description</title>
+                <link>https://example.com</link>
+                <item>
+                    <title>Item with Missing Description</title>
+                    <link>https://example.com/item</link>
+                </item>
+            </channel>
+        </rss>
+        """.data(using: .utf8)!
+        
+        let feed = try await sut.parseRSS(data: RSSData)
+        
+        #expect(feed.title == "Missing Description")
+        #expect(feed.description == "")
+        #expect(feed.items.count == 1)
+        
+        let item = feed.items[0]
+        #expect(item.title == "Item with Missing Description")
+        #expect(item.description == "")
+        #expect(item.linkURL == URL(string: "https://example.com/item"))
+        #expect(item.imageURL == nil)
     }
 
 }
