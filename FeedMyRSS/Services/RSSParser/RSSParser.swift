@@ -33,6 +33,13 @@ class RSSParser: NSObject {
         parser.parse()
     }
     
+    func parseRSS(data: Data) async throws -> RSSFeed {
+        try await withCheckedThrowingContinuation { continuation in
+            parseRSS(data: data) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
 }
 
 extension RSSParser: XMLParserDelegate {
