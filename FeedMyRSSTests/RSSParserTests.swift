@@ -97,6 +97,29 @@ struct RSSParserTests {
         #expect(item.title == "Item with Missing Description")
         #expect(item.description == "")
         #expect(item.linkURL == URL(string: "https://example.com/item"))
+    }
+    
+    @Test func parseInvalidURL() async throws {
+        let RSSData = """
+        <rss>
+            <channel>
+                <title>Feed with Invalid URL</title>
+                <item>
+                    <title>Item with Invalid URL</title>
+                    <link>ht!tp://invalid-url</link>
+                </item>
+            </channel>
+        </rss>
+        """.data(using: .utf8)!
+        
+        let feed = try await sut.parseRSS(data: RSSData)
+        
+        #expect(feed.title == "Feed with Invalid URL")
+        #expect(feed.description == "")
+        #expect(feed.items.count == 1)
+        
+        let item = feed.items[0]
+        #expect(item.title == "Item with Invalid URL")
         #expect(item.imageURL == nil)
     }
 
