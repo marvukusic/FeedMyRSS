@@ -8,6 +8,14 @@
 import Foundation
 
 class RSSParser: NSObject {
+    private enum RssKeys: String {
+        case title, description, url, item, link
+        case media = "media:thumbnail"
+    }
+    
+    private enum RssAttributes: String {
+        case url
+    }
     
 }
 
