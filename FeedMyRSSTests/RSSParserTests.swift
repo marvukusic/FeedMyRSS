@@ -123,4 +123,20 @@ struct RSSParserTests {
         #expect(item.imageURL == nil)
     }
 
+    @Test func parserError() async throws {
+        let RSSData = """
+        <rss>
+            <channel>
+                Unclosed tags
+        """.data(using: .utf8)!
+        
+        do {
+            let feed = try await sut.parseRSS(data: RSSData)
+            Issue.record("Expected a throw, but there was none")
+        } catch let error as RSSParserError {
+            #expect(error == .errorParsingXML)
+        } catch {
+            Issue.record("Unexpected error: \(error)")
+        }
+    }
 }
