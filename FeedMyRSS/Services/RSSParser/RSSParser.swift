@@ -8,12 +8,12 @@
 import Foundation
 
 class RSSParser: NSObject {
-    private enum RssKeys: String {
+    private enum RSSKeys: String {
         case title, description, url, item, link
         case media = "media:thumbnail"
     }
     
-    private enum RssAttributes: String {
+    private enum RSSAttributes: String {
         case url
     }
     
@@ -26,7 +26,7 @@ class RSSParser: NSObject {
     
     private var completion: ((RSSFeedResult) -> Void)?
     
-    func parse(data: Data, completion: @escaping (RSSFeedResult) -> Void) {
+    func parseRSS(data: Data, completion: @escaping (RSSFeedResult) -> Void) {
         self.completion = completion
         let parser = XMLParser(data: data)
         parser.delegate = self
@@ -40,13 +40,13 @@ extension RSSParser: XMLParserDelegate {
         currentElement = elementName
         currentText = ""
         
-        switch RssKeys(rawValue: elementName) {
+        switch RSSKeys(rawValue: elementName) {
         case .item:
             currentItem = RSSItem()
             
         case .media:
             guard currentItem?.imageURL == nil else { break }
-            currentItem?.imageURL = URL(string: attributeDict[RssAttributes.url.rawValue] ?? "")
+            currentItem?.imageURL = URL(string: attributeDict[RSSAttributes.url.rawValue] ?? "")
             
         default:
             break
@@ -63,7 +63,7 @@ extension RSSParser: XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        switch RssKeys(rawValue: elementName) {
+        switch RSSKeys(rawValue: elementName) {
         case .title:
             guard currentItem != nil else {
                 feed.title = currentText
