@@ -58,4 +58,19 @@ struct RSSParserTests {
         #expect(item2.imageURL == URL(string: "https://example.com/image2.jpg"))
     }
     
+    @Test func testParseEmptyRSSFeed() async throws {
+        let RSSData = """
+        <rss>
+            <channel>
+            </channel>
+        </rss>
+        """.data(using: .utf8)!
+        
+        let feed = try await sut.parseRSS(data: RSSData)
+        
+        #expect(feed.title == "")
+        #expect(feed.description == "")
+        #expect(feed.items.count == 0)
+    }
+
 }
