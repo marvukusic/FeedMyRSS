@@ -9,4 +9,6 @@ import Foundation
 
 enum NetworkServiceError: Error {
     case invalidURL
+    case invalidResponse
+    case requestFailed(Error)
 }

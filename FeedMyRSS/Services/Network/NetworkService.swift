@@ -8,5 +8,25 @@
 import Foundation
 
 class NetworkService {
+    private let session: URLSession
     
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
+    
+    func fetchRSSFeedData(from urlString: String) async throws -> Data {
+        guard let url = URL(string: urlString) else { throw NetworkServiceError.invalidURL }
+        
+        do {
+            let (data, response) = try await session.data(from: url)
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                throw NetworkServiceError.invalidResponse
+            }
+            
+            return data
+        } catch {
+            throw NetworkServiceError.requestFailed(error)
+        }
+    }
 }
