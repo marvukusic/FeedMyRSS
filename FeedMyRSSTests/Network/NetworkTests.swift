@@ -41,4 +41,23 @@ struct NetworkTests {
         
         #expect(response == RSSData)
     }
+    
+    @Test func getRSSFeedData_RequestFailed() async throws {
+        let requestError = URLError(.notConnectedToInternet)
+        mockSession.data = Data()
+        mockSession.error = requestError
+        
+        do {
+            let _ = try await sut.fetchRSSFeedData(from: "https://mockme.com/")
+        } catch let error as NetworkServiceError {
+            guard case .requestFailed(let error) = error else {
+                Issue.record("Expected URLError, but got NetworkServiceError")
+                return
+            }
+            #expect(error as? URLError == requestError)
+        } catch {
+            Issue.record("Unexpected error: \(error)")
+        }
+        
+    }
 }
