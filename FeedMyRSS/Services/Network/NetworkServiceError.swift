@@ -11,4 +11,15 @@ enum NetworkServiceError: Error {
     case invalidURL
     case invalidResponse
     case requestFailed(Error)
+    
+    var localizedDescription: String {
+        switch self {
+        case .invalidURL:
+            return "The URL provided is invalid."
+        case .requestFailed(let error):
+            return "Request failed with error: \(error.localizedDescription)"
+        case .invalidResponse:
+            return "Received an invalid response from the server."
+        }
+    }
 }
