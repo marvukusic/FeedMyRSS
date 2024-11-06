@@ -66,9 +66,25 @@ struct NetworkTests {
         
         do {
             let _ = try await sut.fetchRSSFeedData(from: "https://mockme.com/")
+            Issue.record("Expected .invalidResponse error, but none was thrown")
         } catch let error as NetworkServiceError {
             guard case .invalidResponse = error else {
                 Issue.record("Wrong error returned: \(error) instead of .invalidResponse")
+                return
+            }
+            #expect(error != nil)
+        } catch {
+            Issue.record("Unexpected error: \(error)")
+        }
+    }
+    
+    @Test func getRSSFeedData_InvalidURL() async throws {
+        do {
+            let _ = try await sut.fetchRSSFeedData(from: "invalid-url")
+            Issue.record("Expected .invalidURL error, but none was thrown")
+        } catch let error as NetworkServiceError {
+            guard case .invalidURL = error else {
+                Issue.record("Wrong error returned: \(error) instead of .invalidURL")
                 return
             }
             #expect(error != nil)
