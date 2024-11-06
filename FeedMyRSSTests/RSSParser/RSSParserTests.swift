@@ -10,7 +10,7 @@ import Foundation
 @testable import FeedMyRSS
 
 struct RSSParserTests {
-    var sut: RSSParser
+    let sut: RSSParser
     
     init() {
         sut = RSSParser()
