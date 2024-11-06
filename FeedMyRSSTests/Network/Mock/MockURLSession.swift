@@ -8,7 +8,7 @@
 import Foundation
 @testable import FeedMyRSS
 
-class MockURLSession: URLSessionProtocol {
+class MockURLSession: NetworkService.URLSessionProtocol {
     var data: Data?
     var error: Error?
     var statusCode: Int = 200

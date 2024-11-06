@@ -8,6 +8,10 @@
 import Foundation
 
 class NetworkService {
+    internal protocol URLSessionProtocol {
+        func data(from url: URL) async throws -> (Data, URLResponse)
+    }
+    
     private let session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
@@ -38,3 +42,5 @@ class NetworkService {
         }
     }
 }
+
+extension URLSession: NetworkService.URLSessionProtocol {}
