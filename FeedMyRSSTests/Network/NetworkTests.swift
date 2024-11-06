@@ -58,6 +58,22 @@ struct NetworkTests {
         } catch {
             Issue.record("Unexpected error: \(error)")
         }
+    }
+    
+    @Test func getRSSFeedData_InvalidResponseStatusCode() async throws {
+        mockSession.data = Data()
+        mockSession.statusCode = 404
         
+        do {
+            let _ = try await sut.fetchRSSFeedData(from: "https://mockme.com/")
+        } catch let error as NetworkServiceError {
+            guard case .invalidResponse = error else {
+                Issue.record("Wrong error returned: \(error) instead of .invalidResponse")
+                return
+            }
+            #expect(error != nil)
+        } catch {
+            Issue.record("Unexpected error: \(error)")
+        }
     }
 }

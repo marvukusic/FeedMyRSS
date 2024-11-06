@@ -17,16 +17,18 @@ class NetworkService {
     func fetchRSSFeedData(from urlString: String) async throws -> Data {
         guard let url = URL(string: urlString) else { throw NetworkServiceError.invalidURL }
         
+        let data: Data
+        let response: URLResponse
         do {
-            let (data, response) = try await session.data(from: url)
-            
-            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                throw NetworkServiceError.invalidResponse
-            }
-            
-            return data
+            (data, response) = try await session.data(from: url)
         } catch {
             throw NetworkServiceError.requestFailed(error)
         }
+        
+        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkServiceError.invalidResponse
+        }
+        
+        return data
     }
 }
