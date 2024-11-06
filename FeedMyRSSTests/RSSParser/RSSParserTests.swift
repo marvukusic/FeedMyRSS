@@ -131,7 +131,7 @@ struct RSSParserTests {
         """.data(using: .utf8)!
         
         do {
-            let feed = try await sut.parseRSS(data: RSSData)
+            let _ = try await sut.parseRSS(data: RSSData)
             Issue.record("Expected a throw, but there was none")
         } catch let error as RSSParserError {
             #expect(error == .errorParsingXML)
