@@ -27,10 +27,14 @@ class NetworkService {
             throw NetworkServiceError.requestFailed(error)
         }
         
+        try validateResponse(response)
+        
+        return data
+    }
+    
+    private func validateResponse(_ response: URLResponse) throws {
         guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
             throw NetworkServiceError.invalidResponse
         }
-        
-        return data
     }
 }
