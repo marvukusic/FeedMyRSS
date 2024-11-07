@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    let networkService = NetworkService()
-    let rssParser = RSSParser()
-    
     var body: some View {
         RSSFeedsView()
     }

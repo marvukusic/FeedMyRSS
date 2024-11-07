@@ -7,7 +7,11 @@
 
 import Foundation
 
-class NetworkService {
+protocol NetworkServiceProtocol {
+    func fetchRSSFeedData(from urlString: String) async throws -> Data
+}
+
+class NetworkService: NetworkServiceProtocol {
     internal protocol URLSessionProtocol {
         func data(from url: URL) async throws -> (Data, URLResponse)
     }
