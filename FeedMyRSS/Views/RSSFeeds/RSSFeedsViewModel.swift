@@ -22,7 +22,7 @@ class RSSFeedsViewModel: ObservableObject {
     }
     
     func addURL(_ url: String) async throws {
-        guard !feedURLs.contains(url) else { return }
+        guard !feedURLs.contains(url) else { throw RSSFeedsError.feedExists }
         
         try await loadRSSFeed(from: url)
         feedURLs.append(url)
