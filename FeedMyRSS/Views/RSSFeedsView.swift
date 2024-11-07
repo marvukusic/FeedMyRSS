@@ -22,14 +22,21 @@ struct RSSFeedsView: View {
             .toolbar {
                 createToolbar()
             }
-    
+            
             .navigationTitle("FeedMyRSS")
+        }
+        
+        .onAppear {
+            Task {
+                try? await viewModel.loadStoredFeeds()
+            }
         }
     }
     
     private func createToolbar() -> ToolbarItemGroup<some View> {
         return ToolbarItemGroup(placement: .bottomBar) {
             Button("Add New Feed") {
+                resetInputText()
                 insertingURL.toggle()
             }
             .buttonStyle(RoundedButtonStyle())
@@ -48,11 +55,26 @@ struct RSSFeedsView: View {
     private func addNewFeed() {
         Task {
             do {
-                try await viewModel.addURL("https://feeds.bbci.co.uk/news/world/rss.xml")
+                try await viewModel.addURL(newURL)
             } catch {
                 errorAlert.show(error: error)
             }
         }
+    }
+}
+
+extension RSSFeedsView {
+    private func resetInputText() {
+#if DEBUG
+        let someRSSFeedURLs = ["https://feeds.bbci.co.uk/news/world/rss.xml",
+        "https://www.nbcnews.com/id/3032091/device/rss/rss.xml",
+        "https://www.cnbc.com/id/100727362/device/rss/rss.html",
+        "https://abcnews.go.com/abcnews/internationalheadlines",
+        "https://www.cbsnews.com/latest/rss/world"]
+        newURL = someRSSFeedURLs.randomElement() ?? ""
+#else
+        newURL = ""
+#endif
     }
 }
 

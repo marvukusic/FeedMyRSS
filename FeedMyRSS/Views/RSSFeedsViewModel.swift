@@ -32,6 +32,12 @@ class RSSFeedsViewModel: ObservableObject {
         feedURLs.removeAll(where: { $0 == url })
     }
     
+    func loadStoredFeeds() async throws {
+        for url in feedURLs {
+            try await loadRSSFeed(from: url)
+        }
+    }
+    
     func loadRSSFeed(from url: String) async throws {
         let data = try await networkService.fetchRSSFeedData(from: url)
         let feed = try await parser.parseRSS(data: data)
