@@ -89,6 +89,10 @@ extension RSSParser: XMLParserDelegate {
             feed.imageURL = URL(string: currentText)
             
         case .link:
+            guard currentItem != nil else {
+                feed.linkURL = URL(string: currentText)
+                return
+            }
             currentItem?.linkURL = URL(string: currentText)
             
         case .item:

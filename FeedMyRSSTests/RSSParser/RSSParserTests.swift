@@ -43,6 +43,7 @@ struct RSSParserTests {
         
         #expect(feed.title == "Sample Feed")
         #expect(feed.description == "This is a sample RSS feed")
+        #expect(feed.linkURL == URL(string: "https://example.com"))
         #expect(feed.items.count == 2)
         
         let item1 = feed.items[0]
