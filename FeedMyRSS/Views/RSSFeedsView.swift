@@ -74,7 +74,7 @@ extension RSSFeedsView {
     private func resetInputText() {
 #if DEBUG
         let someRSSFeedURLs = ["https://feeds.bbci.co.uk/news/world/rss.xml",
-        "https://www.nbcnews.com/id/3032091/device/rss/rss.xml",
+        "https://feeds.feedburner.com/time/world",
         "https://www.cnbc.com/id/100727362/device/rss/rss.html",
         "https://abcnews.go.com/abcnews/internationalheadlines",
         "https://www.cbsnews.com/latest/rss/world"]
