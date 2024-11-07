@@ -171,4 +171,41 @@ struct RSSParserTests {
         #expect(item.description == "Item description with CDATA")
         #expect(item.linkURL == URL(string: "https://example.com/cdata"))
     }
+    
+    @Test func parserResetWhenParsingAgain() async throws {
+        let RSSData = """
+        <rss>
+            <channel>
+                <title>Sample Feed</title>
+                <description>This is a sample RSS feed</description>
+                <link>https://example.com</link>
+                <image>
+                    <url>https://example.com/img.gif</url>
+                </image>
+                <item>
+                    <title>Item</title>
+                    <description>Item description</description>
+                    <link>https://example.com/item</link>
+                    <media:thumbnail url="https://example.com/image.jpg" />
+                </item>
+            </channel>
+        </rss>
+        """.data(using: .utf8)!
+        
+        let RSSEmptyData = """
+        <rss>
+            <channel>
+            </channel>
+        </rss>
+        """.data(using: .utf8)!
+        
+        let _ = try await sut.parseRSS(data: RSSData)
+        let emptyFeed = try await sut.parseRSS(data: RSSEmptyData)
+        
+        #expect(emptyFeed.title == "")
+        #expect(emptyFeed.description == "")
+        #expect(emptyFeed.imageURL == nil)
+        #expect(emptyFeed.linkURL == nil)
+        #expect(emptyFeed.items.count == 0)
+    }
 }
