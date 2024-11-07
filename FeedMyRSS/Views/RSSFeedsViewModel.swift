@@ -22,7 +22,15 @@ class RSSFeedsViewModel: ObservableObject {
         let data = try await networkService.fetchRSSFeedData(from: url)
         let feed = try await parser.parseRSS(data: data)
         DispatchQueue.main.async {
-            self.feeds.append(feed)
+            self.refreshFeeds(with: feed)
+        }
+    }
+    
+    private func refreshFeeds(with feed: RSSFeed) {
+        if let index = feeds.firstIndex(where: { $0.linkURL == feed.linkURL }) {
+            feeds[index] = feed
+        } else {
+            feeds.append(feed)
         }
     }
 }
