@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct FeedMyRSSApp: App {
+    private let networkService = NetworkService()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.networkService, networkService)
         }
     }
 }

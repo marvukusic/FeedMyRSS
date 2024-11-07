@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.networkService) private var networkService: NetworkServiceProtocol
+    
     var body: some View {
-        RSSFeedsView()
+        RSSFeedsView(viewModel: RSSFeedsViewModel(networkService: networkService))
     }
 }
 

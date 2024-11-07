@@ -8,11 +8,22 @@
 import SwiftUI
 
 struct RSSFeedsView: View {
+    @StateObject var viewModel: RSSFeedsViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button("Pressme") {
+            Task {
+                do {
+                    try await viewModel.loadRSSFeed(from: "https://feeds.bbci.co.uk/news/world/rss.xml")
+                } catch {
+                    print(error)
+#warning("Handle errors")
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    RSSFeedsView()
+    RSSFeedsView(viewModel: RSSFeedsViewModel(networkService: NetworkService()))
 }

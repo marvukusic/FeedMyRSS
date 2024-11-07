@@ -21,6 +21,8 @@ class RSSFeedsViewModel: ObservableObject {
     func loadRSSFeed(from url: String) async throws {
         let data = try await networkService.fetchRSSFeedData(from: url)
         let feed = try await parser.parseRSS(data: data)
-        feeds.append(feed)
+        DispatchQueue.main.async {
+            self.feeds.append(feed)
+        }
     }
 }
