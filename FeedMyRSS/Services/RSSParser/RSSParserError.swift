@@ -7,6 +7,13 @@
 
 import Foundation
 
-enum RSSParserError: Error {
+enum RSSParserError: LocalizedError {
     case errorParsingXML
+    
+    var errorDescription: String? {
+        switch self {
+        case .errorParsingXML:
+            return "URL link does not contain a valid RSS feed"
+        }
+    }
 }

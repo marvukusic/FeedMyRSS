@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RSSFeedsView: View {
+    @EnvironmentObject var errorAlert: ErrorAlert
+    
     @StateObject var viewModel: RSSFeedsViewModel
     
     var body: some View {
@@ -16,8 +18,7 @@ struct RSSFeedsView: View {
                 do {
                     try await viewModel.loadRSSFeed(from: "https://feeds.bbci.co.uk/news/world/rss.xml")
                 } catch {
-                    print(error)
-#warning("Handle errors")
+                    errorAlert.show(error: error)
                 }
             }
         }
