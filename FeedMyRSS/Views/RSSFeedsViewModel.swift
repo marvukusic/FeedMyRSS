@@ -12,7 +12,7 @@ class RSSFeedsViewModel: ObservableObject {
     @Published var feeds = [RSSFeed]()
     
     @UserDefaultsWrapper(key: "feedURLs", defaultValue: [])
-    private var feedURLs: [String]
+    var feedURLs: [String]
     
     private let networkService: NetworkServiceProtocol
     private let parser = RSSParser()
@@ -28,8 +28,9 @@ class RSSFeedsViewModel: ObservableObject {
         feedURLs.append(url)
     }
     
-    func removeURL(_ url: String) {
-        feedURLs.removeAll(where: { $0 == url })
+    func removeFeed(at offsets: IndexSet) {
+        feedURLs.remove(atOffsets: offsets)
+        feeds.remove(atOffsets: offsets)
     }
     
     func loadStoredFeeds() async throws {

@@ -29,7 +29,7 @@ struct UserDefaultsWrapper<T: Codable> {
         }
         set {
             if let data = try? JSONEncoder().encode(newValue) {
-                userDefaults.set(data, forKey: key)
+                userDefaults.setValue(data, forKey: key)
             }
         }
     }

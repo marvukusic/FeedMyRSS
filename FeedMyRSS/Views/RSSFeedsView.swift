@@ -16,8 +16,11 @@ struct RSSFeedsView: View {
     
     var body: some View {
         NavigationView {
-            List(viewModel.feeds, id: \.linkURL) { feed in
-                RSSFeedRowView(feed: feed)
+            List {
+                ForEach(viewModel.feeds, id: \.linkURL) { feed in
+                    RSSFeedRowView(feed: feed)
+                }
+                .onDelete(perform: removeRSSFeed)
             }
             .toolbar {
                 createToolbar()
@@ -31,6 +34,10 @@ struct RSSFeedsView: View {
                 try? await viewModel.loadStoredFeeds()
             }
         }
+    }
+    
+    func removeRSSFeed(at offsets: IndexSet) {
+        viewModel.removeFeed(at: offsets)
     }
     
     private func createToolbar() -> ToolbarItemGroup<some View> {
