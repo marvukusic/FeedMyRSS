@@ -27,6 +27,7 @@ class RSSParser: NSObject {
     private var completion: ((RSSFeedResult) -> Void)?
     
     func parseRSS(data: Data, completion: @escaping (RSSFeedResult) -> Void) {
+        resetInstanceProperties()
         self.completion = completion
         let parser = XMLParser(data: data)
         parser.delegate = self
@@ -39,6 +40,13 @@ class RSSParser: NSObject {
                 continuation.resume(with: result)
             }
         }
+    }
+    
+    func resetInstanceProperties() {
+        feed = RSSFeed()
+        currentItem = nil
+        currentElement = ""
+        currentText = ""
     }
 }
 
