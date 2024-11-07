@@ -1,5 +1,5 @@
 //
-//  UserDefaultsArray.swift
+//  UserDefaultsWrapper.swift
 //  FeedMyRSS
 //
 //  Created by Marko Vukušić on 07.11.2024.
