@@ -23,6 +23,9 @@ struct RSSParserTests {
                 <title>Sample Feed</title>
                 <description>This is a sample RSS feed</description>
                 <link>https://example.com</link>
+                <image>
+                    <url>https://example.com/img.gif</url>
+                </image>
                 <item>
                     <title>Item 1</title>
                     <description>Item 1 description</description>
@@ -43,6 +46,7 @@ struct RSSParserTests {
         
         #expect(feed.title == "Sample Feed")
         #expect(feed.description == "This is a sample RSS feed")
+        #expect(feed.imageURL == URL(string: "https://example.com/img.gif"))
         #expect(feed.linkURL == URL(string: "https://example.com"))
         #expect(feed.items.count == 2)
         
