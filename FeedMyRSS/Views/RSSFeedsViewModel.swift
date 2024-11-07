@@ -9,13 +9,27 @@ import Foundation
 import Combine
 
 class RSSFeedsViewModel: ObservableObject {
+    @Published var feeds = [RSSFeed]()
+    
+    @UserDefaultsWrapper(key: "feedURLs", defaultValue: [])
+    private var feedURLs: [String]
+    
     private let networkService: NetworkServiceProtocol
     private let parser = RSSParser()
     
-    @Published var feeds = [RSSFeed]()
-    
     init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
+    }
+    
+    func addURL(_ url: String) async throws {
+        guard !feedURLs.contains(url) else { return }
+        
+        try await loadRSSFeed(from: url)
+        feedURLs.append(url)
+    }
+    
+    func removeURL(_ url: String) {
+        feedURLs.removeAll(where: { $0 == url })
     }
     
     func loadRSSFeed(from url: String) async throws {
