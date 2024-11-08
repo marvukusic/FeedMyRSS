@@ -29,10 +29,8 @@ struct RSSFeedsView: View {
             .navigationTitle("FeedMyRSS")
         }
         
-        .onAppear {
-            Task {
-                try? await viewModel.loadStoredFeeds()
-            }
+        .task {
+            try? await viewModel.loadStoredFeeds()
         }
     }
     
