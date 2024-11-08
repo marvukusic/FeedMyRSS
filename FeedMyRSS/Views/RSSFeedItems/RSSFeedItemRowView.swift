@@ -38,6 +38,7 @@ struct RSSFeedItemRowView: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
+            .padding(.horizontal, 20)
         }
         .padding(.vertical)
     }

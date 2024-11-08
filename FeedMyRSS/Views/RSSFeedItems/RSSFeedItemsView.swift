@@ -18,10 +18,20 @@ struct RSSFeedItemsView: View {
     var items: [RSSItem] { feed?.content.items ?? [] }
     
     var body: some View {
-        List(items) { item in
-            RSSFeedItemRowView(item: item)
+        ScrollView {
+            VStack {
+                ForEach(items) { item in
+                    RSSFeedItemRowView(item: item)
+                    Divider()
+                }
+            }
+        }
+        .refreshable {
+            try? await Task.sleep(nanoseconds: 500_000_000)
+            await loadFeed()
         }
         .navigationTitle(feed?.content.title ?? "")
+        .navigationBarTitleDisplayMode(.inline)
         .task { await loadFeed() }
     }
     

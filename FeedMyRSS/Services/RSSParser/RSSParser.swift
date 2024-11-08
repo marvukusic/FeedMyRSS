@@ -9,7 +9,7 @@ import Foundation
 
 class RSSParser: NSObject {
     private enum RSSKeys: String {
-        case title, description, url, item, link
+        case title, description, url, item, link, image
         case media = "media:thumbnail"
     }
     
@@ -99,6 +99,9 @@ extension RSSParser: XMLParserDelegate {
             
         case .url:
             feed.imageURL = URL(string: currentText)
+        
+        case .image:
+            currentItem?.imageURL = URL(string: currentText)
             
         case .link:
             guard currentItem != nil else {
