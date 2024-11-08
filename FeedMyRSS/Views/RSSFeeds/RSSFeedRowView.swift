@@ -15,26 +15,30 @@ struct RSSFeedRowView: View {
             AsyncImage(url: feed.imageURL) { image in
                 image
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .aspectRatio(contentMode: .fit)
                     .frame(width: 50, height: 50)
                     .cornerRadius(8)
             } placeholder: {
-                Rectangle()
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(width: 50, height: 50)
-                    .cornerRadius(8)
+                ZStack {
+                    Image(systemName: "photo.on.rectangle")
+                        .foregroundStyle(.gray)
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(8)
+                }
             }
             .padding(.trailing, 8)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(feed.title)
+                Text(feed.title ?? "")
                     .font(.headline)
-                    .lineLimit(2)
+                    .lineLimit(1)
                 
-                Text(feed.description)
+                Text(feed.description ?? "No description")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                    .lineLimit(3)
+                    .lineLimit(1)
             }
         }
         .padding(.vertical, 4)

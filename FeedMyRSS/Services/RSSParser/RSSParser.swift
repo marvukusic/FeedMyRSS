@@ -81,14 +81,14 @@ extension RSSParser: XMLParserDelegate {
         switch RSSKeys(rawValue: elementName) {
         case .title:
             guard currentItem != nil else {
-                feed.title = currentText
+                feed.title = !currentText.isEmpty ? currentText : nil
                 return
             }
             currentItem?.title = currentText
             
         case .description:
             guard currentItem != nil else {
-                feed.description = currentText
+                feed.description = !currentText.isEmpty ? currentText : nil
                 return
             }
             currentItem?.description = currentText

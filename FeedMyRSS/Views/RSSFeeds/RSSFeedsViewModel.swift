@@ -27,8 +27,8 @@ class RSSFeedsViewModel: ObservableObject {
         let feed = try await loadRSSFeed(from: urlString)
         DispatchQueue.main.async {
             self.feeds.append(feed)
+            self.syncStoredFeeds()
         }
-        syncStoredFeeds()
     }
     
     func removeFeed(at offsets: IndexSet) {
