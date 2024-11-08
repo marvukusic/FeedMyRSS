@@ -63,6 +63,31 @@ struct RSSParserTests {
         #expect(item2.imageURL == URL(string: "https://example.com/image2.jpg"))
     }
     
+    @Test func parseValidRSSFeedWithSkipItems() async throws {
+        let RSSData = """
+        <rss>
+            <channel>
+                <title>Sample Feed</title>
+                <description>This is a sample RSS feed</description>
+                <link>https://example.com</link>
+                <image>
+                    <url>https://example.com/img.gif</url>
+                </image>
+                <item>
+                    <title>Item</title>
+                    <description>Item description</description>
+                    <link>https://example.com/item</link>
+                    <media:thumbnail url="https://example.com/image.jpg" />
+                </item>
+            </channel>
+        </rss>
+        """.data(using: .utf8)!
+        
+        let feed = try await sut.parseRSS(data: RSSData, skipItems: true)
+        
+        #expect(feed.items.count == 0)
+    }
+    
     @Test func parseEmptyRSSFeed() async throws {
         let RSSData = """
         <rss>
@@ -73,8 +98,8 @@ struct RSSParserTests {
         
         let feed = try await sut.parseRSS(data: RSSData)
         
-        #expect(feed.title == "")
-        #expect(feed.description == "")
+        #expect(feed.title == nil)
+        #expect(feed.description == nil)
         #expect(feed.items.count == 0)
     }
     
@@ -95,12 +120,12 @@ struct RSSParserTests {
         let feed = try await sut.parseRSS(data: RSSData)
         
         #expect(feed.title == "Missing Description")
-        #expect(feed.description == "")
+        #expect(feed.description == nil)
         #expect(feed.items.count == 1)
         
         let item = feed.items[0]
         #expect(item.title == "Item with Missing Description")
-        #expect(item.description == "")
+        #expect(item.description == nil)
         #expect(item.linkURL == URL(string: "https://example.com/item"))
     }
     
@@ -120,7 +145,7 @@ struct RSSParserTests {
         let feed = try await sut.parseRSS(data: RSSData)
         
         #expect(feed.title == "Feed with Invalid URL")
-        #expect(feed.description == "")
+        #expect(feed.description == nil)
         #expect(feed.items.count == 1)
         
         let item = feed.items[0]
@@ -202,8 +227,8 @@ struct RSSParserTests {
         let _ = try await sut.parseRSS(data: RSSData)
         let emptyFeed = try await sut.parseRSS(data: RSSEmptyData)
         
-        #expect(emptyFeed.title == "")
-        #expect(emptyFeed.description == "")
+        #expect(emptyFeed.title == nil)
+        #expect(emptyFeed.description == nil)
         #expect(emptyFeed.imageURL == nil)
         #expect(emptyFeed.linkURL == nil)
         #expect(emptyFeed.items.count == 0)

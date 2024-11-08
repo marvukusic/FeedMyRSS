@@ -23,20 +23,24 @@ class RSSParser: NSObject {
     private var currentItem: RSSItem?
     private var currentElement = ""
     private var currentText = ""
+    private var skipItems = false
     
     private var completion: ((RSSFeedResult) -> Void)?
     
-    func parseRSS(data: Data, completion: @escaping (RSSFeedResult) -> Void) {
-        resetInstanceProperties()
+    func parseRSS(data: Data, skipItems: Bool = false, completion: @escaping (RSSFeedResult) -> Void) {
+        self.skipItems = skipItems
         self.completion = completion
+        
+        resetInstanceProperties()
+        
         let parser = XMLParser(data: data)
         parser.delegate = self
         parser.parse()
     }
     
-    func parseRSS(data: Data) async throws -> RSSFeedContent {
+    func parseRSS(data: Data, skipItems: Bool = false) async throws -> RSSFeedContent {
         try await withCheckedThrowingContinuation { continuation in
-            parseRSS(data: data) { result in
+            parseRSS(data: data, skipItems: skipItems) { result in
                 continuation.resume(with: result)
             }
         }
@@ -116,6 +120,9 @@ extension RSSParser: XMLParserDelegate {
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
+        if skipItems {
+            feed.items = []
+        }
         completion?(.success(feed))
     }
     
