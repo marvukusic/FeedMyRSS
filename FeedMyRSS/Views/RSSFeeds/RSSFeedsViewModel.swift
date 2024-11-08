@@ -9,10 +9,10 @@ import Foundation
 import Combine
 
 class RSSFeedsViewModel: ObservableObject {
-    @Published var feeds = [RSSFeedContent]()
+    @UserDefaultsWrapper(key: "storedFeeds", defaultValue: [])
+    var storedFeeds: [RSSFeed]
     
-    @UserDefaultsWrapper(key: "feedURLs", defaultValue: [])
-    var feedURLs: [String]
+    @Published var feeds = [RSSFeed]()
     
     private let networkService: NetworkServiceProtocol
     private let parser = RSSParser()
@@ -22,36 +22,38 @@ class RSSFeedsViewModel: ObservableObject {
     }
     
     func addURL(_ url: String) async throws {
-        guard !feedURLs.contains(url) else { throw RSSFeedsError.feedExists }
+        guard !feeds.contains(where: { $0.path == url }) else { throw RSSFeedsError.feedExists }
         
         try await loadRSSFeed(from: url)
-        feedURLs.append(url)
     }
     
     func removeFeed(at offsets: IndexSet) {
-        feedURLs.remove(atOffsets: offsets)
         feeds.remove(atOffsets: offsets)
+        storedFeeds.remove(atOffsets: offsets)
     }
     
     func loadStoredFeeds() async throws {
-        for url in feedURLs {
-            try await loadRSSFeed(from: url)
+        DispatchQueue.main.async {
+            self.feeds = self.storedFeeds
         }
     }
     
     func loadRSSFeed(from url: String) async throws {
         let data = try await networkService.fetchRSSFeedData(from: url)
-        let feed = try await parser.parseRSS(data: data)
+        let content = try await parser.parseRSS(data: data)
+        let feed = RSSFeed(path: url, content: content)
         DispatchQueue.main.async {
             self.refreshFeeds(with: feed)
         }
     }
     
-    private func refreshFeeds(with feed: RSSFeedContent) {
-        if let index = feeds.firstIndex(where: { $0.linkURL == feed.linkURL }) {
+    private func refreshFeeds(with feed: RSSFeed) {
+        if let index = storedFeeds.firstIndex(where: { $0.path == feed.path }) {
             feeds[index] = feed
+            storedFeeds[index] = feed
         } else {
             feeds.append(feed)
+            storedFeeds.append(feed)
         }
     }
 }

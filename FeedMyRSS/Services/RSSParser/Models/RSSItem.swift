@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RSSItem {
+struct RSSItem: Codable {
     var title: String = ""
     var description: String = ""
     var imageURL: URL?
