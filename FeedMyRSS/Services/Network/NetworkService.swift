@@ -22,9 +22,9 @@ class NetworkService: NetworkServiceProtocol {
         self.session = session
     }
     
-    func fetchRSSFeedData(from urlString: String) async throws -> Data {
+    func fetchRSSFeedData(from urlString: String) async throws(NetworkServiceError) -> Data {
         guard urlString.isValidURL, let url = URL(string: urlString) else {
-            throw NetworkServiceError.invalidURL
+            throw .invalidURL
         }
         
         let data: Data
@@ -32,7 +32,7 @@ class NetworkService: NetworkServiceProtocol {
         do {
             (data, response) = try await session.data(from: url)
         } catch {
-            throw NetworkServiceError.requestFailed(error)
+            throw .requestFailed(error)
         }
         
         try validateResponse(response)
@@ -40,9 +40,9 @@ class NetworkService: NetworkServiceProtocol {
         return data
     }
     
-    private func validateResponse(_ response: URLResponse) throws {
+    private func validateResponse(_ response: URLResponse) throws(NetworkServiceError) {
         guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-            throw NetworkServiceError.invalidResponse
+            throw .invalidResponse
         }
     }
 }
