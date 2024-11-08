@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RSSFeedRowView: View {
-    let feed: RSSFeed
+    let feed: RSSFeedContent
     
     var body: some View {
         HStack(alignment: .top) {
@@ -42,5 +42,5 @@ struct RSSFeedRowView: View {
 }
 
 #Preview {
-    RSSFeedRowView(feed: RSSFeed(title: "Title", description: "Description", imageURL: URL(string: "www.image.url")))
+    RSSFeedRowView(feed: RSSFeedContent(title: "Title", description: "Description", imageURL: URL(string: "www.image.url")))
 }

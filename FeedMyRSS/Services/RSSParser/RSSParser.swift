@@ -17,9 +17,9 @@ class RSSParser: NSObject {
         case url
     }
     
-    typealias RSSFeedResult = Result<RSSFeed, RSSParserError>
+    typealias RSSFeedResult = Result<RSSFeedContent, RSSParserError>
     
-    private var feed = RSSFeed()
+    private var feed = RSSFeedContent()
     private var currentItem: RSSItem?
     private var currentElement = ""
     private var currentText = ""
@@ -34,7 +34,7 @@ class RSSParser: NSObject {
         parser.parse()
     }
     
-    func parseRSS(data: Data) async throws -> RSSFeed {
+    func parseRSS(data: Data) async throws -> RSSFeedContent {
         try await withCheckedThrowingContinuation { continuation in
             parseRSS(data: data) { result in
                 continuation.resume(with: result)
@@ -43,7 +43,7 @@ class RSSParser: NSObject {
     }
     
     func resetInstanceProperties() {
-        feed = RSSFeed()
+        feed = RSSFeedContent()
         currentItem = nil
         currentElement = ""
         currentText = ""
@@ -124,6 +124,6 @@ extension RSSParser: XMLParserDelegate {
     }
     
     private func trimmed(_ string: String) -> String {
-        return string.trimmingCharacters(in: .whitespacesAndNewlines)
+        string.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

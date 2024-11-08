@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 class RSSFeedsViewModel: ObservableObject {
-    @Published var feeds = [RSSFeed]()
+    @Published var feeds = [RSSFeedContent]()
     
     @UserDefaultsWrapper(key: "feedURLs", defaultValue: [])
     var feedURLs: [String]
@@ -47,7 +47,7 @@ class RSSFeedsViewModel: ObservableObject {
         }
     }
     
-    private func refreshFeeds(with feed: RSSFeed) {
+    private func refreshFeeds(with feed: RSSFeedContent) {
         if let index = feeds.firstIndex(where: { $0.linkURL == feed.linkURL }) {
             feeds[index] = feed
         } else {

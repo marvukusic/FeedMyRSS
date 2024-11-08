@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RSSFeed {
+struct RSSFeedContent {
     var title: String = ""
     var description: String = ""
     var linkURL: URL?
