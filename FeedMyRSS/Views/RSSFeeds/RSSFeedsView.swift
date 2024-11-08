@@ -25,13 +25,10 @@ struct RSSFeedsView: View {
             .toolbar {
                 createToolbar()
             }
-            
             .navigationTitle("FeedMyRSS")
         }
         
-        .task {
-            try? await viewModel.loadStoredFeeds()
-        }
+        .task { try? await viewModel.loadStoredFeeds() }
     }
     
     func removeRSSFeed(at offsets: IndexSet) {
@@ -40,12 +37,21 @@ struct RSSFeedsView: View {
     
     private func createToolbar() -> ToolbarItemGroup<some View> {
         return ToolbarItemGroup(placement: .bottomBar) {
-            Button("Add New Feed") {
-                resetInputText()
-                insertingURL.toggle()
+            VStack {
+                Button("Add New Feed") {
+                    resetInputText()
+                    insertingURL.toggle()
+                }
+                .buttonStyle(RoundedButtonStyle())
+                .padding()
+                
+                inputTextAlert
             }
-            .buttonStyle(RoundedButtonStyle())
-            .padding()
+        }
+    }
+    
+    var inputTextAlert: some View {
+        VStack {}
             .alert("Add new RSS feed", isPresented: $insertingURL) {
                 TextField("URL", text: $newURL)
                     .textInputAutocapitalization(.never)
@@ -54,7 +60,6 @@ struct RSSFeedsView: View {
             } message: {
                 Text("Insert URL")
             }
-        }
     }
     
     private func addNewFeed() {
