@@ -21,15 +21,15 @@ class RSSFeedsViewModel: ObservableObject {
         self.networkService = networkService
     }
     
-    func addURL(_ url: String) async throws {
-        guard !feeds.contains(where: { $0.path == url }) else { throw RSSFeedsError.feedExists }
+    func addURL(_ urlString: String) async throws {
+        guard !feedExists(for: urlString) else { throw RSSFeedsError.feedExists }
         
-        try await loadRSSFeed(from: url)
+        try await loadRSSFeed(from: urlString)
     }
     
     func removeFeed(at offsets: IndexSet) {
         feeds.remove(atOffsets: offsets)
-        storedFeeds.remove(atOffsets: offsets)
+        syncStoredFeeds()
     }
     
     func loadStoredFeeds() async throws {
@@ -38,10 +38,10 @@ class RSSFeedsViewModel: ObservableObject {
         }
     }
     
-    func loadRSSFeed(from url: String) async throws {
-        let data = try await networkService.fetchRSSFeedData(from: url)
+    func loadRSSFeed(from urlString: String) async throws {
+        let data = try await networkService.fetchRSSFeedData(from: urlString)
         let content = try await parser.parseRSS(data: data)
-        let feed = RSSFeed(path: url, content: content)
+        let feed = RSSFeed(path: urlString, content: content)
         DispatchQueue.main.async {
             self.refreshFeeds(with: feed)
         }
@@ -50,10 +50,17 @@ class RSSFeedsViewModel: ObservableObject {
     private func refreshFeeds(with feed: RSSFeed) {
         if let index = storedFeeds.firstIndex(where: { $0.path == feed.path }) {
             feeds[index] = feed
-            storedFeeds[index] = feed
         } else {
             feeds.append(feed)
-            storedFeeds.append(feed)
         }
+        syncStoredFeeds()
+    }
+    
+    private func syncStoredFeeds() {
+        storedFeeds = feeds
+    }
+    
+    private func feedExists(for urlString: String) -> Bool {
+        feeds.contains(where: { $0.path == urlString })
     }
 }
