@@ -24,7 +24,7 @@ class RSSFeedsViewModel: ObservableObject {
     func addURL(_ urlString: String) async throws {
         guard !feedExists(for: urlString) else { throw RSSFeedsError.feedExists }
         
-        let feed = try await loadRSSFeed(from: urlString)
+        let feed = try await loadRSSFeed(from: urlString, skipItems: true)
         DispatchQueue.main.async {
             self.feeds.append(feed)
             self.syncStoredFeeds()
@@ -36,15 +36,15 @@ class RSSFeedsViewModel: ObservableObject {
         syncStoredFeeds()
     }
     
-    func loadStoredFeeds() async throws {
+    func loadStoredFeeds() {
         DispatchQueue.main.async {
             self.feeds = self.storedFeeds
         }
     }
     
-    func loadRSSFeed(from urlString: String) async throws -> RSSFeed {
+    func loadRSSFeed(from urlString: String, skipItems: Bool = false) async throws -> RSSFeed {
         let data = try await networkService.fetchRSSFeedData(from: urlString)
-        let content = try await parser.parseRSS(data: data)
+        let content = try await parser.parseRSS(data: data, skipItems: skipItems)
         let feed = RSSFeed(path: urlString, content: content)
         return feed
     }

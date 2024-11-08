@@ -18,17 +18,17 @@ struct RSSFeedsView: View {
         NavigationView {
             List {
                 ForEach(viewModel.feeds) { feed in
-                    RSSFeedRowView(feed: feed.content)
+                    NavigationLink(destination: RSSFeedItemsView(path: feed.path, viewModel: viewModel)) {
+                        RSSFeedRowView(feed: feed.content)
+                    }
                 }
                 .onDelete(perform: removeRSSFeed)
             }
-            .toolbar {
-                createToolbar()
-            }
+            .toolbar { createToolbar() }
             .navigationTitle("FeedMyRSS")
         }
         
-        .task { try? await viewModel.loadStoredFeeds() }
+        .task { viewModel.loadStoredFeeds() }
     }
     
     func removeRSSFeed(at offsets: IndexSet) {
