@@ -17,7 +17,7 @@ struct RSSFeedsView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(viewModel.feeds, id: \.path) { feed in
+                ForEach(viewModel.feeds) { feed in
                     RSSFeedRowView(feed: feed.content)
                 }
                 .onDelete(perform: removeRSSFeed)
