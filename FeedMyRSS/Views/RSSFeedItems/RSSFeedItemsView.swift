@@ -8,11 +8,6 @@
 import SwiftUI
 import Combine
 
-struct WebViewModel: Identifiable {
-    var id = UUID()
-    var linkURL: URL?
-}
-
 struct RSSFeedItemsView: View {
     @EnvironmentObject var errorAlert: ErrorAlert
     
@@ -30,7 +25,7 @@ struct RSSFeedItemsView: View {
                 ForEach(items) { item in
                     RSSFeedItemRowView(item: item)
                         .onTapGesture {
-                            webViewModel = WebViewModel(linkURL: item.linkURL)
+                            openLink(item.linkURL)
                         }
                     Divider()
                 }
@@ -49,6 +44,10 @@ struct RSSFeedItemsView: View {
         .sheet(item: $webViewModel) { model in
             WebView(url: model.linkURL)
         }
+    }
+    
+    private func openLink(_ linkURL: URL?) {
+        webViewModel = WebViewModel(linkURL: linkURL)
     }
     
     private func loadFeed() async {
