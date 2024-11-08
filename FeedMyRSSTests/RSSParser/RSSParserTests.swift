@@ -138,8 +138,8 @@ struct RSSParserTests {
         do {
             let _ = try await sut.parseRSS(data: RSSData)
             Issue.record("Expected .errorParsingXML error, but none was thrown")
-        } catch let error as RSSParserError {
-            #expect(error == .errorParsingXML)
+        } catch RSSParserError.errorParsingXML {
+            #expect(true)
         } catch {
             Issue.record("Unexpected error: \(error)")
         }
