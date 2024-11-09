@@ -61,4 +61,5 @@ struct RSSFeedItemsView: View {
 
 #Preview {
     RSSFeedItemsView(path: "", viewModel: RSSFeedsViewModel(networkService: NetworkService()))
+        .environmentObject(ErrorAlert())
 }

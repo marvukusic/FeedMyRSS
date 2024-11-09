@@ -90,4 +90,5 @@ extension RSSFeedsView {
 
 #Preview {
     RSSFeedsView(viewModel: RSSFeedsViewModel(networkService: NetworkService()))
+        .environmentObject(ErrorAlert())
 }
