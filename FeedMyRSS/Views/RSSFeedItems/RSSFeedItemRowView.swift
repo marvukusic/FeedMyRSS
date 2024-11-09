@@ -17,8 +17,8 @@ struct RSSFeedItemRowView: View {
             AsyncImage(url: item.imageURL) { image in
                 image
                     .resizable()
+                    .scaledToFill()
                     .frame(width: imageSize, height: imageSize)
-                    .scaledToFit()
                     .cornerRadius(8)
                     
             } placeholder: {
@@ -32,20 +32,19 @@ struct RSSFeedItemRowView: View {
                 }
             }
             
-            VStack(alignment: .leading) {
-                Group {
-                    Text(item.title ?? "")
-                        .font(.headline)
-                        .lineLimit(2)
-                    
-                    Text(item.description ?? "No description")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .lineLimit(3)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .multilineTextAlignment(.leading)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(item.title ?? "")
+                    .font(.headline)
+                    .lineLimit(3)
+                
+                Text(item.description ?? "No description")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .lineLimit(3)
             }
+            .environment(\._lineHeightMultiple, 0.8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .multilineTextAlignment(.leading)
             .padding(.horizontal)
         }
         .padding()
