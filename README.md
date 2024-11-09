@@ -4,13 +4,13 @@ FeedMyRSS is a sample iOS RSS feed viewer application built with Swift and Swift
 
 ## Features
 
-- **Provider View**: Users can see a list of RSS feed providers which they've subscribed to.
-- **Add Providers**: Allows users to subscribe to various RSS feed providers by inserting their RSS feed URL.
-- **Remove Provider**: Users can remove RSS feed from list by swiping left unwanted RSS feed provider.
-- **Feed View**: Users can select an RSS feed provider from the list to view its latest RSS feed items in a separate screen.
-- **News View**: Users can read news article in popup view by tapping on relevant RSS feed item.
+- **Feeds View**: Users can see a list of RSS feeds which they've subscribed to.
+- **Add Feed**: Allows users to subscribe to various RSS feeds by inserting their URL.
+- **Remove Feed**: Users can remove RSS feed from list by swiping left unwanted RSS feed.
+- **Items View**: Users can select an RSS feed from the list to view its latest items in a separate screen.
+- **Article View**: Users can read news article in popup view by tapping on relevant RSS feed item.
 - **MVVM Architecture**: Adheres to MVVM for better organization and testability.
-- **Data Persistence**: Stores data locally to persist RSS feed provider selection.
+- **Data Persistence**: Stores data locally to persist RSS feeds selection.
 - **Unit and UI Testing**: Includes unit and UI tests for essential components.
 
 ## Requirements
@@ -37,16 +37,16 @@ open FeedMyRSS.xcodeproj
 3. Build and run the project on the iOS simulator or a physical device.
 
 ## Usage
-### Adding RSS Feed Providers
-1. Tap on the "Add New Feed" button to add RSS feed provider to the list.
-2. Enter the provider URL and press "OK".
-### Viewing RSS Provider Items 
-1. All added providers are listed on the main screen.
-2. Tap on an provider to view its items in separate screen.
-### Removing Providers
-Swipe left on any provider to remove it.
+### Adding RSS Feed
+1. Tap on the "Add New Feed" button to add RSS feed to the list.
+2. Enter the URL and press "OK".
+### Viewing RSS Feed Items 
+1. All added RSS feeds are listed on the feeds screen.
+2. Tap on any feed to view its items in separate screen.
+### Removing Feeds
+Swipe left any feed to remove it.
 ### Viewing News Articles 
-1. Latest provider items are listed on the secondary screen.
+1. Latest feed items are listed on the items screen.
 2. Tap on an item to view complete news article in popup web browser view.
 ### Refreshing items
 RSS feed items can be refreshed by pull-to-refresh action.
