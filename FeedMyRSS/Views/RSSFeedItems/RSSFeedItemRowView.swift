@@ -10,14 +10,16 @@ import SwiftUI
 struct RSSFeedItemRowView: View {
     let item: RSSItem
     
+    let imageSize: CGFloat = 120
+    
     var body: some View {
-        VStack(alignment: .leading) {
+        HStack(alignment: .top) {
             AsyncImage(url: item.imageURL) { image in
                 image
                     .resizable()
+                    .frame(width: imageSize, height: imageSize)
                     .scaledToFit()
                     .cornerRadius(8)
-                    .frame(maxWidth: .infinity, maxHeight: 200)
                     
             } placeholder: {
                 ZStack {
@@ -26,21 +28,27 @@ struct RSSFeedItemRowView: View {
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
                         .cornerRadius(8)
-                        .frame(height: 200)
+                        .frame(width: imageSize, height: imageSize)
                 }
             }
             
             VStack(alignment: .leading) {
-                Text(item.title ?? "")
-                    .font(.headline)
-                
-                Text(item.description ?? "No description")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                Group {
+                    Text(item.title ?? "")
+                        .font(.headline)
+                        .lineLimit(2)
+                    
+                    Text(item.description ?? "No description")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .lineLimit(3)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .multilineTextAlignment(.leading)
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal)
         }
-        .padding(.vertical)
+        .padding()
     }
 }
 
