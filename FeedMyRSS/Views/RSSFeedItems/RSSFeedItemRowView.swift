@@ -13,7 +13,7 @@ struct RSSFeedItemRowView: View {
     let imageSize: CGFloat = 120
     
     var body: some View {
-        HStack(alignment: .top) {
+        HStack(alignment: .top,spacing: 16) {
             AsyncImage(url: item.imageURL) { image in
                 image
                     .resizable()
@@ -32,20 +32,19 @@ struct RSSFeedItemRowView: View {
                 }
             }
             
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(item.title ?? "")
                     .font(.headline)
-                    .lineLimit(3)
-                
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(4)
+
                 Text(item.description ?? "No description")
-                    .font(.subheadline)
+                    .font(.footnote)
                     .foregroundColor(.secondary)
-                    .lineLimit(3)
             }
+            
             .environment(\._lineHeightMultiple, 0.8)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .multilineTextAlignment(.leading)
-            .padding(.horizontal)
+            .frame(maxWidth: .infinity, maxHeight: imageSize, alignment: .leading)
         }
         .padding()
     }
