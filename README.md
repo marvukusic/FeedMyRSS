@@ -27,7 +27,7 @@ FeedMyRSS is a sample iOS RSS feed viewer application built with Swift and Swift
 git clone https://github.com/marvukusic/FeedMyRSS.git
 ```
 
-2.Open the project in Xcode:
+2. Open the project in Xcode:
 
 ```bash
 cd FeedMyRSS
@@ -44,12 +44,12 @@ open FeedMyRSS.xcodeproj
 1. All added RSS feeds are listed on the feeds screen.
 2. Tap on any feed to view its items in separate screen.
 ### Removing Feeds
-Swipe left any feed to remove it.
+- Swipe left any feed to remove it.
 ### Viewing News Articles 
 1. Latest feed items are listed on the items screen.
 2. Tap on an item to view complete news article in popup web browser view.
 ### Refreshing items
-RSS feed items can be refreshed by pull-to-refresh action.
+- RSS feed items can be refreshed by pull-to-refresh action.
 
 ## Architecture
 This project follows the Model-View-ViewModel (MVVM) pattern for a clean separation of concerns and testable code. The key components of the architecture include:
