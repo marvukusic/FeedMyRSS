@@ -17,9 +17,14 @@ struct RSSFeedsView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(viewModel.feeds) { feed in
-                    NavigationLink(destination: RSSFeedItemsView(path: feed.path, viewModel: viewModel)) {
-                        RSSFeedRowView(feed: feed.content)
+                ForEach($viewModel.feeds) { $feed in
+                    ZStack {
+                        NavigationLink(destination: RSSFeedItemsView(path: feed.path, viewModel: viewModel)) {
+                            EmptyView() // This ZStack is a workaround to remove navigation chevron which is automatically inserted by the List
+                        }
+                        .opacity(0)
+                        
+                        RSSFeedRowView(feed: $feed)
                     }
                 }
                 .onDelete(perform: removeRSSFeed)
@@ -29,7 +34,7 @@ struct RSSFeedsView: View {
             .accessibilityIdentifier("feedList")
         }
         
-        .task { viewModel.loadStoredFeeds() }
+        .task { viewModel.syncStoredData() }
     }
     
     func removeRSSFeed(at offsets: IndexSet) {

@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct RSSFeedRowView: View {
-    let feed: RSSFeedContent
+    @Binding var feed: RSSFeed
     
     var body: some View {
-        HStack(alignment: .top) {
-            AsyncImage(url: feed.imageURL) { image in
+        HStack(alignment: .center) {
+            AsyncImage(url: feed.content.imageURL) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -31,20 +31,35 @@ struct RSSFeedRowView: View {
             .padding(.trailing, 8)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(feed.title ?? "")
+                Text(feed.content.title ?? "")
                     .font(.headline)
                     .lineLimit(1)
                 
-                Text(feed.description ?? "No description")
+                Text(feed.content.description ?? "No description")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .lineLimit(1)
             }
+            
+            Spacer()
+            
+            Button(action: {
+                feed.isFavourited.toggle()
+            }) {
+                Image(systemName: feed.isFavourited ? "star.fill" : "star")
+                    .foregroundColor(feed.isFavourited ? .yellow : .gray)
+                    .imageScale(.large)
+            }
+            .buttonStyle(BorderlessButtonStyle())
         }
         .padding(.vertical, 4)
     }
 }
 
 #Preview {
-    RSSFeedRowView(feed: RSSFeedContent(title: "Title", description: "Description", imageURL: URL(string: "www.image.url")))
+    RSSFeedRowView(feed: .constant(RSSFeed(path: "",
+                                           isFavourited: false,
+                                           content: RSSFeedContent(title: "Title",
+                                                                   description: "Description",
+                                                                   imageURL: URL(string: "www.image.url")))))
 }
