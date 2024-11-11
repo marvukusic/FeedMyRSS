@@ -24,9 +24,7 @@ class RSSFeedsViewModel: ObservableObject {
     }
     
     func syncStoredData() {
-        DispatchQueue.main.async {
-            self.feeds = self.storedFeeds
-        }
+        retreiveStoredFeeds()
         
         $feeds
             .receive(on: DispatchQueue.main)
@@ -48,7 +46,9 @@ class RSSFeedsViewModel: ObservableObject {
     }
     
     func removeFeed(at offsets: IndexSet) {
-        feeds.remove(atOffsets: offsets)
+        DispatchQueue.main.async {
+            self.feeds.remove(atOffsets: offsets)
+        }
     }
     
     func loadRSSFeed(from urlString: String, skipItems: Bool = false) async throws -> RSSFeed {
@@ -56,6 +56,12 @@ class RSSFeedsViewModel: ObservableObject {
         let content = try await parser.parseRSS(data: data, skipItems: skipItems)
         let feed = RSSFeed(path: urlString, content: content)
         return feed
+    }
+    
+    func retreiveStoredFeeds() {
+        DispatchQueue.main.async {
+            self.feeds = self.storedFeeds
+        }
     }
     
     private func feedExists(for urlString: String) -> Bool {

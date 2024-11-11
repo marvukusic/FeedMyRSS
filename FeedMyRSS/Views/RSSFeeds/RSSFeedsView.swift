@@ -32,6 +32,11 @@ struct RSSFeedsView: View {
             .toolbar { createToolbar() }
             .navigationTitle("FeedMyRSS")
             .accessibilityIdentifier("feedList")
+            
+            .refreshable {
+                try? await Task.sleep(nanoseconds: 500_000_000)
+                viewModel.retreiveStoredFeeds()
+            }
         }
         
         .task { viewModel.syncStoredData() }
