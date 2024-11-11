@@ -28,16 +28,14 @@ final class FeedMyRSSUITests: XCTestCase {
     }
 
     @MainActor
-    func testAddNewRSSFeed() {
+    func testAddAndDeleteNewRSSFeed() {
         let feedURL = "https://feeds.bbci.co.uk/news/world/rss.xml"
         
         let cells = app.collectionViews["feedList"].cells
-        for _ in 0..<cells.allElementsBoundByAccessibilityElement.count {
-            cells.element(boundBy: 0).swipeLeft()
-            app.otherElements.buttons["Delete"].firstMatch.tap()
+        if cells.count > 0 {
+            clearFeedList(cells: cells)
         }
-        XCTAssertTrue(cells.count == 0, "Feed list not empty")
-   
+        
         app.buttons["Add New Feed"].tap()
         XCTAssertTrue(app.alerts["Add new RSS feed"].exists, "Add new RSS feed alert did not appear")
         
@@ -48,6 +46,17 @@ final class FeedMyRSSUITests: XCTestCase {
         urlTextField.typeText(feedURL)
         app.alerts["Add new RSS feed"].buttons["OK"].tap()
         
-        XCTAssertTrue(app.collectionViews["feedList"].cells.element(boundBy: 0).waitForExistence(timeout: 1))
+        let addedCell = cells.element(boundBy: 0)
+        XCTAssertTrue(addedCell.waitForExistence(timeout: 1))
+        
+        clearFeedList(cells: cells)
+    }
+    
+    private func clearFeedList(cells: XCUIElementQuery) {
+        for _ in 0..<cells.allElementsBoundByAccessibilityElement.count {
+            cells.element(boundBy: 0).swipeLeft()
+            app.otherElements.buttons["Delete"].firstMatch.tap()
+        }
+        XCTAssertTrue(cells.count == 0, "Feed list not empty")
     }
 }
