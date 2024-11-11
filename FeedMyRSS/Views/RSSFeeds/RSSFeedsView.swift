@@ -26,6 +26,7 @@ struct RSSFeedsView: View {
             }
             .toolbar { createToolbar() }
             .navigationTitle("FeedMyRSS")
+            .accessibilityIdentifier("feedList")
         }
         
         .task { viewModel.loadStoredFeeds() }
