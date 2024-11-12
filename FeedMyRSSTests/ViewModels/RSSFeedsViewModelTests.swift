@@ -50,4 +50,15 @@ struct RSSFeedsViewModelTests {
         #expect(sut.feeds.count == 1)
         #expect(sut.feeds.first?.path == url)
     }
+    
+    @Test func addURLWhenAlreadyExists() async throws {
+        mockService.mockData = RSSData
+        
+        let url = "https://example.com/rss"
+        try await sut.addURL(url)
+        
+        await #expect(throws: RSSFeedsError.feedExists) {
+            try await sut.addURL(url)
+        }
+    }
 }
