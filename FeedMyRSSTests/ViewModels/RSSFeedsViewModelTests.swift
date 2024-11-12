@@ -16,6 +16,7 @@ struct RSSFeedsViewModelTests {
     
     let someUrl = "https://someurl.com/"
     let invalidUrl = "invalid-url"
+    let sampleFeed = RSSFeed(path: "https://someurl.com/", content: RSSFeedContent(title: "Sample Feed", description: "This is a sample RSS feed", linkURL: URL(string: "https://example.com")))
     
     let RSSData = """
 <rss>
@@ -33,12 +34,11 @@ struct RSSFeedsViewModelTests {
     }
     
     @Test func syncStoredData() async throws {
-        let storedFeed = RSSFeed(path: someUrl, content: RSSFeedContent(title: "Sample Feed", description: "This is a sample RSS feed", linkURL: URL(string: "https://example.com")))
-        sut.storedFeeds = [storedFeed]
+        sut.storedFeeds = [sampleFeed]
         
         await sut.syncStoredData()
         
-        #expect(sut.feeds == [storedFeed])
+        #expect(sut.feeds == [sampleFeed])
     }
     
     @Test func addURLSuccessfullyAddsFeed() async throws {
@@ -61,11 +61,8 @@ struct RSSFeedsViewModelTests {
     }
     
     @Test func removeFeedSuccessfullyRemovesItFromFeedList() async throws {
-        mockService.mockData = RSSData
-        
-        try await sut.addURL(someUrl)
-        #expect(sut.feeds.count == 1)
-        
+        sut.feeds = [sampleFeed]
+
         await sut.removeFeed(at: [0])
         #expect(sut.feeds.count == 0)
     }
