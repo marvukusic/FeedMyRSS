@@ -24,7 +24,7 @@ class RSSFeedsViewModel: ObservableObject {
     }
     
     func syncStoredData() async {
-        await retreiveStoredFeeds()
+        await retrieveStoredFeeds()
         
         $feeds
             .removeDuplicates()
@@ -60,7 +60,7 @@ class RSSFeedsViewModel: ObservableObject {
     }
     
     @MainActor
-    func retreiveStoredFeeds() {
+    func retrieveStoredFeeds() {
         feeds = storedFeeds
     }
     

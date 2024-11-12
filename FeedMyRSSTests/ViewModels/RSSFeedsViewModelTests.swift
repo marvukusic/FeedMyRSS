@@ -76,4 +76,12 @@ struct RSSFeedsViewModelTests {
         #expect(feed.content.title == "Sample Feed")
         #expect(feed.content.description == "This is a sample RSS feed")
     }
+    
+    @Test func retrieveStoredFeedSuccessfullyRetrievesThem() async throws {
+        sut.storedFeeds = [sampleFeed]
+        
+        await sut.retrieveStoredFeeds()
+        
+        #expect(sut.feeds == [sampleFeed])
+    }
 }
