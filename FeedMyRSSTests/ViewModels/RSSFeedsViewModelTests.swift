@@ -44,21 +44,29 @@ struct RSSFeedsViewModelTests {
     @Test func addURLSuccessfullyAddsFeed() async throws {
         mockService.mockData = RSSData
         
-        let url = "https://example.com/rss"
-        try await sut.addURL(url)
+        try await sut.addURL(someUrl)
         
         #expect(sut.feeds.count == 1)
-        #expect(sut.feeds.first?.path == url)
+        #expect(sut.feeds.first?.path == someUrl)
     }
     
-    @Test func addURLWhenAlreadyExists() async throws {
+    @Test func addURLThrowsErrorWhenFeedAlreadyExists() async throws {
         mockService.mockData = RSSData
         
-        let url = "https://example.com/rss"
-        try await sut.addURL(url)
+        try await sut.addURL(someUrl)
         
         await #expect(throws: RSSFeedsError.feedExists) {
-            try await sut.addURL(url)
+            try await sut.addURL(someUrl)
         }
+    }
+    
+    @Test func removeFeedSuccessfullyRemovesItFromFeedList() async throws {
+        mockService.mockData = RSSData
+        
+        try await sut.addURL(someUrl)
+        #expect(sut.feeds.count == 1)
+        
+        await sut.removeFeed(at: [0])
+        #expect(sut.feeds.count == 0)
     }
 }

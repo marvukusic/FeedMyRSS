@@ -42,12 +42,6 @@ class RSSFeedsViewModel: ObservableObject {
         await addFeed(feed)
     }
     
-    func removeFeed(at offsets: IndexSet) {
-        DispatchQueue.main.async {
-            self.feeds.remove(atOffsets: offsets)
-        }
-    }
-    
     func loadRSSFeed(from urlString: String, skipItems: Bool = false) async throws -> RSSFeed {
         let data = try await networkService.fetchRSSFeedData(from: urlString)
         let content = try await parser.parseRSS(data: data, skipItems: skipItems)
@@ -58,6 +52,11 @@ class RSSFeedsViewModel: ObservableObject {
     @MainActor
     func addFeed(_ feed: RSSFeed) {
         feeds.append(feed)
+    }
+    
+    @MainActor
+    func removeFeed(at offsets: IndexSet) {
+        feeds.remove(atOffsets: offsets)
     }
     
     @MainActor
