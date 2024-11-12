@@ -52,17 +52,6 @@
                ReferencedContainer = "container:FeedMyRSS.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ADD48A4E2CDCB3E00060348D"
-               BuildableName = "FeedMyRSSIntegrationTests.xctest"
-               BlueprintName = "FeedMyRSSIntegrationTests"
-               ReferencedContainer = "container:FeedMyRSS.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
