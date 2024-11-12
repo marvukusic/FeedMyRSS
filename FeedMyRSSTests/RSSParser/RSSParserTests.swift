@@ -63,31 +63,6 @@ struct RSSParserTests {
         #expect(item2.imageURL == URL(string: "https://example.com/image2.jpg"))
     }
     
-    @Test func parseValidRSSFeedWithSkipItems() async throws {
-        let RSSData = """
-        <rss>
-            <channel>
-                <title>Sample Feed</title>
-                <description>This is a sample RSS feed</description>
-                <link>https://example.com</link>
-                <image>
-                    <url>https://example.com/img.gif</url>
-                </image>
-                <item>
-                    <title>Item</title>
-                    <description>Item description</description>
-                    <link>https://example.com/item</link>
-                    <media:thumbnail url="https://example.com/image.jpg" />
-                </item>
-            </channel>
-        </rss>
-        """.data(using: .utf8)!
-        
-        let feed = try await sut.parseRSS(data: RSSData, skipItems: true)
-        
-        #expect(feed.items.count == 0)
-    }
-    
     @Test func parseEmptyRSSFeed() async throws {
         let RSSData = """
         <rss>

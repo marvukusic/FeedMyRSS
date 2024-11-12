@@ -38,13 +38,13 @@ class RSSFeedsViewModel: ObservableObject {
     func addURL(_ urlString: String) async throws {
         guard !feedExists(for: urlString) else { throw RSSFeedsError.feedExists }
         
-        let feed = try await loadRSSFeed(from: urlString, skipItems: true)
+        let feed = try await loadRSSFeed(from: urlString)
         await addFeed(feed)
     }
     
-    func loadRSSFeed(from urlString: String, skipItems: Bool = false) async throws -> RSSFeed {
+    func loadRSSFeed(from urlString: String) async throws -> RSSFeed {
         let data = try await networkService.fetchRSSFeedData(from: urlString)
-        let content = try await parser.parseRSS(data: data, skipItems: skipItems)
+        let content = try await parser.parseRSS(data: data)
         let feed = RSSFeed(path: urlString, content: content)
         return feed
     }
