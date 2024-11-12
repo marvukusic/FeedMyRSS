@@ -23,11 +23,10 @@ class RSSFeedsViewModel: ObservableObject {
         self.networkService = networkService
     }
     
-    func syncStoredData() {
-        retreiveStoredFeeds()
+    func syncStoredData() async {
+        await retreiveStoredFeeds()
         
         $feeds
-            .receive(on: DispatchQueue.main)
             .removeDuplicates()
             .filter { $0 != self.storedFeeds }
             .sink { [weak self] newValue in
@@ -58,10 +57,9 @@ class RSSFeedsViewModel: ObservableObject {
         return feed
     }
     
+    @MainActor
     func retreiveStoredFeeds() {
-        DispatchQueue.main.async {
-            self.feeds = self.storedFeeds
-        }
+        feeds = storedFeeds
     }
     
     private func feedExists(for urlString: String) -> Bool {
