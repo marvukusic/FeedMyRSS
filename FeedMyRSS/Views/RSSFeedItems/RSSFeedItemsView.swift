@@ -12,7 +12,7 @@ struct RSSFeedItemsView: View {
     @EnvironmentObject var errorAlert: ErrorAlert
     
     let path: String
-    @StateObject var viewModel: RSSFeedsViewModel
+    @ObservedObject var viewModel: RSSFeedsViewModel
     
     @State private var webViewModel: WebViewModel?
     

@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.networkService) private var networkService: NetworkServiceProtocol
-    
     @StateObject private var errorAlert = ErrorAlert()
     
     var body: some View {
         VStack {
-            RSSFeedsView(viewModel: RSSFeedsViewModel(networkService: networkService))
+            RSSFeedsView(viewModel: RSSFeedsViewModel())
                 .environmentObject(errorAlert)
         }
         .errorAlert(errorAlert)

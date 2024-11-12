@@ -20,7 +20,7 @@ struct RSSFeedsView: View {
                 ForEach($viewModel.feeds) { $feed in
                     ZStack {
                         NavigationLink(destination: RSSFeedItemsView(path: feed.path, viewModel: viewModel)) {
-                            EmptyView() // This ZStack is a workaround to remove navigation chevron which is automatically inserted by the List
+                            EmptyView() /// This ZStack is a workaround to remove navigation chevron which is automatically inserted by the List
                         }
                         .opacity(0)
                         

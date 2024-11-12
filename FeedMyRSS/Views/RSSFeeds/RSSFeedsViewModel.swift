@@ -19,7 +19,7 @@ class RSSFeedsViewModel: ObservableObject {
     
     private var subscribers = Set<AnyCancellable>()
     
-    init(networkService: NetworkServiceProtocol) {
+    init(networkService: NetworkServiceProtocol = NetworkService()) {
         self.networkService = networkService
     }
     
