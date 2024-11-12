@@ -39,7 +39,7 @@ struct RSSFeedsView: View {
             }
         }
         
-        .task { viewModel.syncStoredData() }
+        .onAppear { viewModel.syncStoredData() }
     }
     
     func removeRSSFeed(at offsets: IndexSet) {
