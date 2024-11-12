@@ -39,9 +39,7 @@ class RSSFeedsViewModel: ObservableObject {
         guard !feedExists(for: urlString) else { throw RSSFeedsError.feedExists }
         
         let feed = try await loadRSSFeed(from: urlString, skipItems: true)
-        DispatchQueue.main.async {
-            self.feeds.append(feed)
-        }
+        await addFeed(feed)
     }
     
     func removeFeed(at offsets: IndexSet) {
@@ -55,6 +53,11 @@ class RSSFeedsViewModel: ObservableObject {
         let content = try await parser.parseRSS(data: data, skipItems: skipItems)
         let feed = RSSFeed(path: urlString, content: content)
         return feed
+    }
+    
+    @MainActor
+    func addFeed(_ feed: RSSFeed) {
+        feeds.append(feed)
     }
     
     @MainActor

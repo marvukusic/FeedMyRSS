@@ -12,7 +12,7 @@ import XCTest
 
 struct RSSFeedsViewModelTests {
     let sut: RSSFeedsViewModel!
-    let mockSession: MockNetworkService
+    let mockService: MockNetworkService
     
     let someUrl = "https://someurl.com/"
     let invalidUrl = "invalid-url"
@@ -28,16 +28,26 @@ struct RSSFeedsViewModelTests {
 """.data(using: .utf8)!
     
     init() {
-        mockSession = MockNetworkService()
-        sut = RSSFeedsViewModel(networkService: mockSession)
+        mockService = MockNetworkService()
+        sut = RSSFeedsViewModel(networkService: mockService)
     }
     
-    @Test @MainActor func syncStoredData() async throws {
+    @Test func syncStoredData() async throws {
         let storedFeed = RSSFeed(path: someUrl, content: RSSFeedContent(title: "Sample Feed", description: "This is a sample RSS feed", linkURL: URL(string: "https://example.com")))
         sut.storedFeeds = [storedFeed]
         
         await sut.syncStoredData()
         
         #expect(sut.feeds == [storedFeed])
+    }
+    
+    @Test func addURLSuccessfullyAddsFeed() async throws {
+        mockService.mockData = RSSData
+        
+        let url = "https://example.com/rss"
+        try await sut.addURL(url)
+        
+        #expect(sut.feeds.count == 1)
+        #expect(sut.feeds.first?.path == url)
     }
 }
