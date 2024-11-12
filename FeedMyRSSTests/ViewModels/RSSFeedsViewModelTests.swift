@@ -66,4 +66,14 @@ struct RSSFeedsViewModelTests {
         await sut.removeFeed(at: [0])
         #expect(sut.feeds.count == 0)
     }
+    
+    @Test func loadRSSFeedSuccessfullyLoadsFeed() async throws {
+        mockService.mockData = RSSData
+        
+        let feed = try await sut.loadRSSFeed(from: someUrl)
+        
+        #expect(feed.path == someUrl)
+        #expect(feed.content.title == "Sample Feed")
+        #expect(feed.content.description == "This is a sample RSS feed")
+    }
 }
