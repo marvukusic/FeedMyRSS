@@ -17,6 +17,8 @@ struct RSSFeedItemsView: View {
     @State private var webViewModel: WebViewModel?
     
     @State private var feed: RSSFeed?
+    @State private var isLoading = false
+    
     private var items: [RSSItem] { feed?.content.items ?? [] }
     
     var body: some View {
@@ -42,7 +44,17 @@ struct RSSFeedItemsView: View {
         .task { await loadFeed() }
         
         .sheet(item: $webViewModel) { model in
-            WebView(url: model.linkURL)
+            ZStack {
+                WebView(isLoading: $isLoading, url: model.linkURL)
+                
+                if isLoading {
+                    ProgressView("Loading...")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding()
+                        .background(Color.white.opacity(0.8))
+                        .cornerRadius(8)
+                }
+            }
         }
     }
     
