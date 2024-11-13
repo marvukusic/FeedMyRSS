@@ -18,4 +18,12 @@ class MockNetworkService: NetworkServiceProtocol {
             throw URLError(.badServerResponse)
         }
     }
+    
+    func fetchRSSFeedDataFromBackground(from urlString: String) async throws -> Data {
+        if let data = mockData {
+            return data
+        } else {
+            throw URLError(.badServerResponse)
+        }
+    }
 }

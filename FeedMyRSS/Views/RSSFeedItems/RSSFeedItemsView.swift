@@ -43,6 +43,11 @@ struct RSSFeedItemsView: View {
         
         .task { await loadFeed() }
         
+        .onChange(of: viewModel.feeds, { oldValue, newValue in
+            guard oldValue != newValue else { return }
+            Task { await loadFeed() }
+        })
+        
         .sheet(item: $webViewModel) { model in
             ZStack {
                 WebView(isLoading: $isLoading, url: model.linkURL)
@@ -51,7 +56,7 @@ struct RSSFeedItemsView: View {
                     ProgressView("Loading...")
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding()
-                        .background(Color.white.opacity(0.8))
+                        .background(Color(.systemBackground))
                         .cornerRadius(8)
                 }
             }
