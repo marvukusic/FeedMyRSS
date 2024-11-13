@@ -56,7 +56,7 @@ struct RSSFeedItemsView: View {
                     ProgressView("Loading...")
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding()
-                        .background(Color.white.opacity(0.8))
+                        .background(Color(.systemBackground))
                         .cornerRadius(8)
                 }
             }
