@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import BackgroundTasks
 
 @main
 struct FeedMyRSSApp: App {
@@ -14,6 +15,10 @@ struct FeedMyRSSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(AppState.shared)
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+                    try? appDelegate.scheduleFeedRefreshBackgroundTask()
+                }
         }
     }
 }
@@ -21,6 +26,10 @@ struct FeedMyRSSApp: App {
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         requestNotificationPermission()
+        
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: "vukusic.marko.rssfeed.items.refresh", using: nil) { task in
+            self.handleBackgroundFeedRefresh(task: task)
+        }
         return true
     }
     
@@ -28,6 +37,27 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let center = UNUserNotificationCenter.current()
         center.delegate = self
         center.requestAuthorization(options: [.alert, .sound]) { _, _ in }
+    }
+    
+    private func handleBackgroundFeedRefresh(task: BGTask) {
+        task.expirationHandler = {
+            task.setTaskCompleted(success: false)
+        }
+        
+        try? scheduleFeedRefreshBackgroundTask()
+        
+        DispatchQueue.main.async {
+            AppState.shared.shouldRefreshFeed = true
+        }
+        task.setTaskCompleted(success: true)
+    }
+    
+    func scheduleFeedRefreshBackgroundTask() throws {
+        let request = BGAppRefreshTaskRequest(identifier: "vukusic.marko.rssfeed.items.refresh")
+        let afterFiveMinutes = Date(timeIntervalSinceNow: 1 * 60)
+        request.earliestBeginDate = afterFiveMinutes
+
+        try BGTaskScheduler.shared.submit(request)
     }
 }
 
