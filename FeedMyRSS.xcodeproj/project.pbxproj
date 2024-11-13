@@ -29,9 +29,22 @@
 		ADFC88032CDA9A1C007DFEBA /* FeedMyRSSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedMyRSSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AD505A112CE4D0560080247C /* Exceptions for "FeedMyRSS" folder in "FeedMyRSS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = ADFC87E82CDA9A1B007DFEBA /* FeedMyRSS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		ADFC87EB2CDA9A1B007DFEBA /* FeedMyRSS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AD505A112CE4D0560080247C /* Exceptions for "FeedMyRSS" folder in "FeedMyRSS" target */,
+			);
 			path = FeedMyRSS;
 			sourceTree = "<group>";
 		};
@@ -399,6 +412,7 @@
 				DEVELOPMENT_TEAM = SR85KRM2TV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FeedMyRSS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Feed My RSS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -434,6 +448,7 @@
 				DEVELOPMENT_TEAM = SR85KRM2TV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FeedMyRSS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Feed My RSS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
