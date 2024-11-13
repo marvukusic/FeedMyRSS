@@ -25,7 +25,7 @@ class RSSFeedsViewModel: ObservableObject {
     
     func refreshFeeds() async {
         for index in feeds.indices {
-            guard var newFeed = try? await loadRSSFeed(from: feeds[index].path) else { continue }
+            guard var newFeed = try? await loadRSSFeedFromBackground(from: feeds[index].path) else { continue }
             
             let item = RSSItem(title: "Tit", description: "Descr", linkURL: URL(string: "https://newItem.com/\(Int.random(in: 0..<1000))"))
             let item2 = RSSItem(title: "Tit", description: "Descr", linkURL: URL(string: "https://newItem.com/\(Int.random(in: 0..<1000))"))
@@ -64,8 +64,13 @@ class RSSFeedsViewModel: ObservableObject {
     func loadRSSFeed(from urlString: String) async throws -> RSSFeed {
         let data = try await networkService.fetchRSSFeedData(from: urlString)
         let content = try await parser.parseRSS(data: data)
-        let feed = RSSFeed(path: urlString, content: content)
-        return feed
+        return RSSFeed(path: urlString, content: content)
+    }
+    
+    func loadRSSFeedFromBackground(from urlString: String) async throws -> RSSFeed {
+        let data = try await networkService.fetchRSSFeedDataFromBackground(from: urlString)
+        let content = try await parser.parseRSS(data: data)
+        return RSSFeed(path: urlString, content: content)
     }
     
     @MainActor
