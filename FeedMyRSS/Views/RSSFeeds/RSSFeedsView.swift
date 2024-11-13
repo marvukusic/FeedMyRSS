@@ -111,5 +111,6 @@ extension RSSFeedsView {
 
 #Preview {
     RSSFeedsView(viewModel: RSSFeedsViewModel(networkService: NetworkService()))
+        .environmentObject(AppState.shared)
         .environmentObject(ErrorAlert())
 }

@@ -90,7 +90,6 @@ class RSSFeedsViewModel: ObservableObject {
     
     @MainActor
     private func updateFeedItems(forIndex index: Int, with items: [RSSItem], newItemCount count: Int) {
-        feeds[index].newItems = true
         feeds[index].newItemCount = count
         feeds[index].content.items = items
     }

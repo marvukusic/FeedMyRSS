@@ -12,7 +12,6 @@ struct RSSFeed: Codable, Identifiable {
     let path: String
     var content: RSSFeedContent
     var isFavourited    = false
-    var newItems        = false
     var newItemCount    = 0
 }
 

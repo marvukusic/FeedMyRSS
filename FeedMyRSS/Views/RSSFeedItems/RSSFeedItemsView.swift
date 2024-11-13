@@ -43,6 +43,11 @@ struct RSSFeedItemsView: View {
         
         .task { await loadFeed() }
         
+        .onChange(of: viewModel.feeds, { oldValue, newValue in
+            guard oldValue != newValue else { return }
+            Task { await loadFeed() }
+        })
+        
         .sheet(item: $webViewModel) { model in
             ZStack {
                 WebView(isLoading: $isLoading, url: model.linkURL)
