@@ -26,11 +26,6 @@ class RSSFeedsViewModel: ObservableObject {
     func refreshFeeds() async {
         for index in feeds.indices {
             guard var newFeed = try? await loadRSSFeedFromBackground(from: feeds[index].path) else { continue }
-            
-            let item = RSSItem(title: "Tit", description: "Descr", linkURL: URL(string: "https://newItem.com/\(Int.random(in: 0..<1000))"))
-            let item2 = RSSItem(title: "Tit", description: "Descr", linkURL: URL(string: "https://newItem.com/\(Int.random(in: 0..<1000))"))
-            newFeed.content.items.append(item)
-            newFeed.content.items.append(item2)
                                
             let newFeedItemsSet = Set<RSSItem>(newFeed.content.items)
             let oldFeedItemsSet = Set<RSSItem>(feeds[index].content.items)

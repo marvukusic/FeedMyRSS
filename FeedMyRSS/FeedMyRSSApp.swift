@@ -40,9 +40,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     private func handleBackgroundFeedRefresh(task: BGTask) {
-        task.expirationHandler = {
-            task.setTaskCompleted(success: false)
-        }
+        task.expirationHandler = { task.setTaskCompleted(success: false) }
         
         try? scheduleFeedRefreshBackgroundTask()
         
@@ -54,8 +52,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     func scheduleFeedRefreshBackgroundTask() throws {
         let request = BGAppRefreshTaskRequest(identifier: "vukusic.marko.rssfeed.items.refresh")
-        let afterFiveMinutes = Date(timeIntervalSinceNow: 1 * 60)
-        request.earliestBeginDate = afterFiveMinutes
+        let afterFifteenMinutes = Date(timeIntervalSinceNow: 15 * 60)
+        request.earliestBeginDate = afterFifteenMinutes
 
         try BGTaskScheduler.shared.submit(request)
     }
