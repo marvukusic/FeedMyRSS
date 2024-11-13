@@ -25,7 +25,7 @@ class RSSFeedsViewModel: ObservableObject {
     
     func refreshFeeds() async {
         for index in feeds.indices {
-            guard var newFeed = try? await loadRSSFeedFromBackground(from: feeds[index].path) else { continue }
+            guard let newFeed = try? await loadRSSFeedFromBackground(from: feeds[index].path) else { continue }
                                
             let newFeedItemsSet = Set<RSSItem>(newFeed.content.items)
             let oldFeedItemsSet = Set<RSSItem>(feeds[index].content.items)
