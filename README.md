@@ -7,6 +7,8 @@ FeedMyRSS is a sample iOS RSS feed viewer application built with Swift and Swift
 - **Feeds View**: Users can see a list of RSS feeds which they've subscribed to.
 - **Add Feed**: Allows users to subscribe to various RSS feeds by inserting their URL.
 - **Feed Favourites**: Allows users to select favourite feeds which show on top of the list.
+- **Notifications**: Users can enable notifications for new items from subscribed feeds.
+- **Favorite Feeds**: Users can mark specific RSS feeds as favorites for easier access.
 - **Remove Feed**: Users can remove RSS feed from list by swiping left unwanted RSS feed.
 - **Items View**: Users can select an RSS feed from the list to view its latest items in a separate screen.
 - **Article View**: Users can read news article in popup view by tapping on relevant RSS feed item.
@@ -54,6 +56,8 @@ open FeedMyRSS.xcodeproj
 2. Tap on an item to view complete news article in popup web browser view.
 ### Refreshing items
 - RSS feed items can be refreshed by pull-to-refresh action.
+### Notifications
+- Allow notifications to get alerts when new items are available in favourited feeds.
 
 ## Architecture
 This project follows the Model-View-ViewModel (MVVM) pattern for a clean separation of concerns and testable code. The key components of the architecture include:
