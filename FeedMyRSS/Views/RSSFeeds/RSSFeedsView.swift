@@ -44,6 +44,7 @@ struct RSSFeedsView: View {
         
         .onChange(of: appData.shouldRefreshFeed) { _, newValue in
             guard newValue else { return }
+            
             Task {
                 await viewModel.refreshFeeds()
                 appData.shouldRefreshFeed = false

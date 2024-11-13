@@ -20,6 +20,6 @@ extension RSSFeed: Equatable {
     static func == (lhs: RSSFeed, rhs: RSSFeed) -> Bool {
         lhs.path == rhs.path &&
         lhs.isFavourited == rhs.isFavourited &&
-        lhs.content.items.count == rhs.content.items.count
+        lhs.content.items == rhs.content.items
     }
 }
