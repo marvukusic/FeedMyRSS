@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RSSFeedsView: View {
+    @EnvironmentObject var appData: AppState
     @EnvironmentObject var errorAlert: ErrorAlert
     
     @StateObject var viewModel: RSSFeedsViewModel
@@ -40,6 +41,13 @@ struct RSSFeedsView: View {
         }
         
         .task { await viewModel.syncStoredData() }
+        
+        .onChange(of: appData.shouldRefreshFeed) { _, newValue in
+            guard newValue else { return }
+            Task {
+                await viewModel.refreshFeeds()
+            }
+        }
     }
     
     func removeRSSFeed(at offsets: IndexSet) {
