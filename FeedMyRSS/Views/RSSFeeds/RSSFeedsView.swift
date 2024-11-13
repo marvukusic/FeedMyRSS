@@ -34,7 +34,7 @@ struct RSSFeedsView: View {
             .accessibilityIdentifier("feedList")
             
             .refreshable {
-                try? await Task.sleep(nanoseconds: 500_000_000)
+                try? await Task.sleep(for: .seconds(0.5))
                 viewModel.retrieveStoredFeeds()
             }
         }
