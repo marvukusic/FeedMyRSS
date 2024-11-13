@@ -23,6 +23,40 @@ class RSSFeedsViewModel: ObservableObject {
         self.networkService = networkService
     }
     
+    func refreshFeeds() async {
+        for index in feeds.indices {
+            guard var newFeed = try? await loadRSSFeed(from: feeds[index].path) else { continue }
+            
+            let item = RSSItem(title: "Tit", description: "Descr", linkURL: URL(string: "https://newItem.com/\(Int.random(in: 0..<1000))"))
+            let item2 = RSSItem(title: "Tit", description: "Descr", linkURL: URL(string: "https://newItem.com/\(Int.random(in: 0..<1000))"))
+            newFeed.content.items.append(item)
+            newFeed.content.items.append(item2)
+                               
+            let newFeedItemsSet = Set<RSSItem>(newFeed.content.items)
+            let oldFeedItemsSet = Set<RSSItem>(feeds[index].content.items)
+            let newItems = newFeedItemsSet.subtracting(oldFeedItemsSet)
+            if newItems.count > 0 {
+                await updateFeedItems(forIndex: index, with: newFeed.content.items, newItemCount: newItems.count)
+                sendNotification(for: feeds[index])
+            }
+        }
+    }
+    
+    @MainActor
+    private func updateFeedItems(forIndex index: Int, with items: [RSSItem], newItemCount count: Int) {
+        feeds[index].newItems = true
+        feeds[index].newItemCount = count
+        feeds[index].content.items = items
+    }
+    
+    private func sendNotification(for feed: RSSFeed) {
+        guard feed.isFavourited else { return }
+        
+        let title = feed.content.title ?? ""
+        let message = "new item".pluraliseIfNeeded(for: feed.newItemCount)
+        LocalNotification(title: title, subtitle: message).send()
+    }
+    
     func syncStoredData() async {
         await retrieveStoredFeeds()
         
