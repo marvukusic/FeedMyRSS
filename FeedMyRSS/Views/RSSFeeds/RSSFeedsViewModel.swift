@@ -42,21 +42,6 @@ class RSSFeedsViewModel: ObservableObject {
         }
     }
     
-    @MainActor
-    private func updateFeedItems(forIndex index: Int, with items: [RSSItem], newItemCount count: Int) {
-        feeds[index].newItems = true
-        feeds[index].newItemCount = count
-        feeds[index].content.items = items
-    }
-    
-    private func sendNotification(for feed: RSSFeed) {
-        guard feed.isFavourited else { return }
-        
-        let title = feed.content.title ?? ""
-        let message = "new item".pluraliseIfNeeded(for: feed.newItemCount)
-        LocalNotification(title: title, subtitle: message).send()
-    }
-    
     func syncStoredData() async {
         await retrieveStoredFeeds()
         
@@ -84,11 +69,6 @@ class RSSFeedsViewModel: ObservableObject {
     }
     
     @MainActor
-    func addFeed(_ feed: RSSFeed) {
-        feeds.append(feed)
-    }
-    
-    @MainActor
     func removeFeed(at offsets: IndexSet) {
         feeds.remove(atOffsets: offsets)
     }
@@ -96,6 +76,26 @@ class RSSFeedsViewModel: ObservableObject {
     @MainActor
     func retrieveStoredFeeds() {
         feeds = storedFeeds
+    }
+    
+    @MainActor
+    private func addFeed(_ feed: RSSFeed) {
+        feeds.append(feed)
+    }
+    
+    @MainActor
+    private func updateFeedItems(forIndex index: Int, with items: [RSSItem], newItemCount count: Int) {
+        feeds[index].newItems = true
+        feeds[index].newItemCount = count
+        feeds[index].content.items = items
+    }
+    
+    private func sendNotification(for feed: RSSFeed) {
+        guard feed.isFavourited else { return }
+        
+        let title = feed.content.title ?? ""
+        let message = "new item".pluraliseIfNeeded(for: feed.newItemCount)
+        LocalNotification(title: title, subtitle: message).send()
     }
     
     private func feedExists(for urlString: String) -> Bool {
