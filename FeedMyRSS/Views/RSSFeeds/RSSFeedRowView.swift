@@ -58,8 +58,7 @@ struct RSSFeedRowView: View {
 
 #Preview {
     RSSFeedRowView(feed: .constant(RSSFeed(path: "",
-                                           isFavourited: false,
                                            content: RSSFeedContent(title: "Title",
                                                                    description: "Description",
-                                                                   imageURL: URL(string: "www.image.url")))))
+                                                                   imageURL: URL(string: "www.image.url")), isFavourited: false)))
 }

@@ -10,13 +10,16 @@ import Foundation
 struct RSSFeed: Codable, Identifiable {
     var id: String { path }
     let path: String
-    var isFavourited: Bool = false
-    let content: RSSFeedContent
+    var content: RSSFeedContent
+    var isFavourited    = false
+    var newItems        = false
+    var newItemCount    = 0
 }
 
 extension RSSFeed: Equatable {
     static func == (lhs: RSSFeed, rhs: RSSFeed) -> Bool {
         lhs.path == rhs.path &&
-        lhs.isFavourited == rhs.isFavourited
+        lhs.isFavourited == rhs.isFavourited &&
+        lhs.content.items.count == rhs.content.items.count
     }
 }
