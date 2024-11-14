@@ -24,10 +24,12 @@ struct FeedMyRSSApp: App {
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    let backgroundTaskItemRefreshIdentifier: String = "vukusic.marko.rssfeed.items.refresh"
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         requestNotificationPermission()
         
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: "vukusic.marko.rssfeed.items.refresh", using: nil) { task in
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundTaskItemRefreshIdentifier, using: nil) { task in
             self.handleBackgroundFeedRefresh(task: task)
         }
         return true
@@ -51,9 +53,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     func scheduleFeedRefreshBackgroundTask() throws {
-        let request = BGAppRefreshTaskRequest(identifier: "vukusic.marko.rssfeed.items.refresh")
-        let afterFifteenMinutes = Date(timeIntervalSinceNow: 15 * 60)
-        request.earliestBeginDate = afterFifteenMinutes
+        let request = BGAppRefreshTaskRequest(identifier: backgroundTaskItemRefreshIdentifier)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
 
         try BGTaskScheduler.shared.submit(request)
     }
