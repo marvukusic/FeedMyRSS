@@ -4,7 +4,7 @@ FeedMyRSS is a sample iOS RSS feed viewer application built with Swift and Swift
 
 | Feeds View | Add New Feed | Items View | Notifications |
 | :-: | :-: | :-: | :-: |
-|![IMG_6685](https://github.com/user-attachments/assets/e7eebb69-2cbf-4284-87ef-19301cf7b3a1)|![IMG_6687](https://github.com/user-attachments/assets/6c8daf87-c066-4d3b-83fc-74ddedb11625)|![IMG_6686](https://github.com/user-attachments/assets/0b885d0b-d217-4dfe-b532-15211f111296)|![IMG_6684](https://github.com/user-attachments/assets/02dabca6-d31f-420d-bf91-6fb4cbe25fc1)| 
+|![IMG_6685](https://github.com/user-attachments/assets/e7eebb69-2cbf-4284-87ef-19301cf7b3a1)|![IMG_6687](https://github.com/user-attachments/assets/6c8daf87-c066-4d3b-83fc-74ddedb11625)|![IMG_6686](https://github.com/user-attachments/assets/0b885d0b-d217-4dfe-b532-15211f111296)|![IMG_6689](https://github.com/user-attachments/assets/799f86d6-a6c3-47bc-b96e-d7b3fcfcf49c)| 
 
 
 ## Features
