@@ -2,7 +2,7 @@
 
 FeedMyRSS is a sample iOS RSS feed viewer application built with Swift and SwiftUI. It demonstrates core iOS development practices, including MVVM architecture, dependency injection, state management, navigation and unit/UI testing.
 
-| Feeds View | Add New Feed | Article View | Notifications |
+| Feeds View | Add New Feed | Items View | Notifications |
 | :-: | :-: | :-: | :-: |
 |![IMG_6685](https://github.com/user-attachments/assets/e7eebb69-2cbf-4284-87ef-19301cf7b3a1)|![IMG_6687](https://github.com/user-attachments/assets/6c8daf87-c066-4d3b-83fc-74ddedb11625)|![IMG_6686](https://github.com/user-attachments/assets/0b885d0b-d217-4dfe-b532-15211f111296)|![IMG_6684](https://github.com/user-attachments/assets/02dabca6-d31f-420d-bf91-6fb4cbe25fc1)| 
 
@@ -11,11 +11,11 @@ FeedMyRSS is a sample iOS RSS feed viewer application built with Swift and Swift
 
 - **Feeds View**: Users can see a list of RSS feeds which they've subscribed to.
 - **Add Feed**: Allows users to subscribe to various RSS feeds by inserting their URL.
-- **Notifications**: Users can enable notifications for new items from subscribed feeds.
+- **Notifications**: Users can enable notifications for new items from favourited feeds.
 - **Favorite Feeds**: Users can mark specific RSS feeds as favorites for easier access.
 - **Remove Feed**: Users can remove RSS feed from list by swiping left unwanted RSS feed.
 - **Items View**: Users can select an RSS feed from the list to view its latest items in a separate screen.
-- **Article View**: Users can read news article in popup view by tapping on relevant RSS feed item.
+- **Article View**: Users can read news article in popup browser view by tapping on relevant RSS feed item.
 - **MVVM Architecture**: Adheres to MVVM for better organization and testability.
 - **Data Persistence**: Stores data locally to persist RSS feeds selection.
 - **Unit and UI Testing**: Includes unit and UI tests for essential components.
