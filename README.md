@@ -1,6 +1,6 @@
 # FeedMyRSS
 
-FeedMyRSS is a sample iOS RSS feed viewer application built with Swift and SwiftUI. It demonstrates core iOS development practices, including MVVM architecture, dependency injection, state management and navigation.
+FeedMyRSS is a sample iOS RSS feed viewer application built with Swift and SwiftUI. It demonstrates core iOS development practices, including MVVM architecture, dependency injection, state management, navigation and unit/UI testing.
 
 | Feeds View | Add New Feed | Article View | Notifications |
 | :-: | :-: | :-: | :-: |
