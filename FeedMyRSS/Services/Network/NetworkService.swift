@@ -46,7 +46,7 @@ class NetworkService: NSObject, NetworkServiceProtocol {
         return data
     }
     
-    func fetchRSSFeedDataFromBackground(from urlString: String, onComplete: @escaping NetworkService.CompletionCallback) {
+    func fetchRSSFeedDataFromBackground(from urlString: String, onComplete: @escaping CompletionCallback) {
         self.onComplete = onComplete
         
         guard urlString.isValidURL, let url = URL(string: urlString) else {
