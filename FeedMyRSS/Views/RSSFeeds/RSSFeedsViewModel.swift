@@ -23,7 +23,7 @@ class RSSFeedsViewModel: ObservableObject {
         self.networkService = networkService
     }
     
-    func refreshFeeds() async {
+    func checkForNewItems() async {
         for index in feeds.indices {
             guard let newFeed = try? await loadRSSFeedFromBackground(from: feeds[index].path) else { continue }
                                

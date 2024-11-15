@@ -42,13 +42,11 @@ struct RSSFeedsView: View {
         
         .task { await viewModel.syncStoredData() }
         
-        .onChange(of: appData.shouldRefreshFeed) { _, newValue in
+        .onChange(of: appData.checkForNewItems) { _, newValue in
             guard newValue else { return }
+            appData.checkForNewItems = false
             
-            Task {
-                await viewModel.refreshFeeds()
-                appData.shouldRefreshFeed = false
-            }
+            Task { await viewModel.checkForNewItems() }
         }
     }
     

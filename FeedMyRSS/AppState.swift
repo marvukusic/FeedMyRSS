@@ -10,7 +10,7 @@ import Combine
 class AppState: ObservableObject {
     static let shared = AppState()
     
-    @Published var shouldRefreshFeed = false
+    @Published var checkForNewItems = false
     
     private init() {}
 }

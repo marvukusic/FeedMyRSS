@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import BackgroundTasks
 
 @main
 struct FeedMyRSSApp: App {
@@ -17,46 +16,28 @@ struct FeedMyRSSApp: App {
             ContentView()
                 .environmentObject(AppState.shared)
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
-                    try? appDelegate.scheduleFeedRefreshBackgroundTask()
+                    try? BackgroundRefreshService.scheduleTask()
                 }
         }
     }
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    let backgroundTaskItemRefreshIdentifier: String = "vukusic.marko.rssfeed.items.refresh"
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         requestNotificationPermission()
-        
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundTaskItemRefreshIdentifier, using: nil) { task in
-            self.handleBackgroundFeedRefresh(task: task)
-        }
+        BackgroundRefreshService.register(callback: checkForNewItems)
         return true
     }
     
-    private func requestNotificationPermission() {
-        let center = UNUserNotificationCenter.current()
-        center.delegate = self
-        center.requestAuthorization(options: [.alert, .sound]) { _, _ in }
-    }
-    
-    private func handleBackgroundFeedRefresh(task: BGTask) {
-        task.expirationHandler = { task.setTaskCompleted(success: false) }
-        
-        try? scheduleFeedRefreshBackgroundTask()
-        
+    private func checkForNewItems() {
         DispatchQueue.main.async {
-            AppState.shared.shouldRefreshFeed = true
+            AppState.shared.checkForNewItems = true
         }
-        task.setTaskCompleted(success: true)
     }
     
-    func scheduleFeedRefreshBackgroundTask() throws {
-        let request = BGAppRefreshTaskRequest(identifier: backgroundTaskItemRefreshIdentifier)
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
-
-        try BGTaskScheduler.shared.submit(request)
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
     }
 }
 
