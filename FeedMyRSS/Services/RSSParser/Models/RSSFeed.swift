@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RSSFeed: Codable, Identifiable {
+struct RSSFeed: Codable, Hashable, Identifiable {
     var id: String { path }
     let path: String
     var content: RSSFeedContent

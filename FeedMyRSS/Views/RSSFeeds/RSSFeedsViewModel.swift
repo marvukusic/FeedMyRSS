@@ -101,3 +101,13 @@ class RSSFeedsViewModel: ObservableObject {
         feeds.contains(where: { $0.path == urlString })
     }
 }
+
+extension RSSFeedsViewModel: Hashable, Equatable {
+    static func == (lhs: RSSFeedsViewModel, rhs: RSSFeedsViewModel) -> Bool {
+        lhs.feeds == rhs.feeds
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.feeds)  
+    }
+}

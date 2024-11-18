@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RSSFeedContent: Codable {
+struct RSSFeedContent: Codable, Hashable {
     var title: String?
     var description: String?
     var linkURL: URL?

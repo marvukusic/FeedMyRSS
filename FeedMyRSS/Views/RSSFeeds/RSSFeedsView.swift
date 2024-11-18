@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct RSSFeedsView: View {
-    @EnvironmentObject var appData: AppState
+    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var router: Router<Route>
     @EnvironmentObject var errorAlert: ErrorAlert
     
     @StateObject var viewModel: RSSFeedsViewModel
@@ -16,35 +17,27 @@ struct RSSFeedsView: View {
     @State private var newURL = ""
     
     var body: some View {
-        NavigationView {
-            List {
-                ForEach($viewModel.feeds) { $feed in
-                    ZStack {
-                        NavigationLink(destination: RSSFeedItemsView(path: feed.path, viewModel: viewModel)) {
-                            EmptyView() /// This ZStack is a workaround to remove navigation chevron which is automatically inserted by the List
-                        }
-                        .opacity(0)
-                        
-                        RSSFeedRowView(feed: $feed)
-                    }
-                }
-                .onDelete(perform: removeRSSFeed)
+        List {
+            ForEach($viewModel.feeds) { $feed in
+                RSSFeedRowView(feed: $feed)
+                    .onTapGesture { router.push(.itemView(path: feed.path, viewModel: viewModel))}
             }
-            .toolbar { createToolbar() }
-            .navigationTitle("FeedMyRSS")
-            .accessibilityIdentifier("feedList")
-            
-            .refreshable {
-                try? await Task.sleep(for: .seconds(0.5))
-                viewModel.retrieveStoredFeeds()
-            }
+            .onDelete(perform: removeRSSFeed)
+        }
+        .toolbar { createToolbar() }
+        .navigationTitle("FeedMyRSS")
+        .accessibilityIdentifier("feedList")
+        
+        .refreshable {
+            try? await Task.sleep(for: .seconds(0.5))
+            viewModel.retrieveStoredFeeds()
         }
         
         .task { await viewModel.syncStoredData() }
         
-        .onChange(of: appData.checkForNewItems) { _, newValue in
+        .onChange(of: appState.checkForNewItems) { _, newValue in
             guard newValue else { return }
-            appData.checkForNewItems = false
+            appState.checkForNewItems = false
             
             Task { await viewModel.checkForNewItems() }
         }
@@ -110,5 +103,6 @@ extension RSSFeedsView {
 #Preview {
     RSSFeedsView(viewModel: RSSFeedsViewModel(networkService: NetworkService()))
         .environmentObject(AppState.shared)
+        .environmentObject(Router<Route>())
         .environmentObject(ErrorAlert())
 }
