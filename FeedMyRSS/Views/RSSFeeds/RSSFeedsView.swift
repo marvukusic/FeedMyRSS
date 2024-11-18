@@ -36,10 +36,18 @@ struct RSSFeedsView: View {
         .task { await viewModel.syncStoredData() }
         
         .onChange(of: appState.checkForNewItems) { _, newValue in
+            defer { appState.checkForNewItems = false }
             guard newValue else { return }
-            appState.checkForNewItems = false
             
             Task { await viewModel.checkForNewItems() }
+        }
+        
+        .onChange(of: appState.navigateToFeedPath) { _, newValue in
+            defer { appState.navigateToFeedPath = "" }
+            guard !newValue.isEmpty else { return }
+            
+            router.goToRoot()
+            router.push(.itemView(path: newValue, viewModel: viewModel))
         }
     }
     

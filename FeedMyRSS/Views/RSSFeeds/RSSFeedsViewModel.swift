@@ -94,7 +94,7 @@ class RSSFeedsViewModel: ObservableObject {
         
         let title = feed.content.title ?? ""
         let message = "new item".pluraliseIfNeeded(for: feed.newItemCount)
-        LocalNotification(title: title, subtitle: message).send()
+        LocalNotification(title: title, subtitle: message, payload: feed.path).send()
     }
     
     private func feedExists(for urlString: String) -> Bool {

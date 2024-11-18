@@ -17,4 +17,8 @@ class Router<Route: Hashable>: ObservableObject {
     func pop() {
         paths.removeLast()
     }
+    
+    func goToRoot() {
+        paths.removeAll()
+    }
 }

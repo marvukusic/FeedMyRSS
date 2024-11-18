@@ -11,6 +11,7 @@ class AppState: ObservableObject {
     static let shared = AppState()
     
     @Published var checkForNewItems = false
+    @Published var navigateToFeedPath = ""
     
     private init() {}
 }

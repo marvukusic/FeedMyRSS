@@ -16,13 +16,13 @@ struct ContentView: View {
             RSSFeedsView(viewModel: RSSFeedsViewModel())
                 .environmentObject(router)
                 .environmentObject(errorAlert)
-                .navigationDestination(for: Route.self) { getNextView(for: $0) }
+                .navigationDestination(for: Route.self) { getView(for: $0) }
         }
         .errorAlert(errorAlert)
     }
     
     @ViewBuilder
-    private func getNextView(for route: Route) -> some View {
+    private func getView(for route: Route) -> some View {
         switch route {
         case let .itemView(path, viewModel):
             RSSFeedItemsView(path: path, viewModel: viewModel)
