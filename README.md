@@ -1,6 +1,6 @@
 # FeedMyRSS
 
-FeedMyRSS is a sample iOS RSS feed viewer application built with Swift and SwiftUI. It demonstrates core iOS development practices, including MVVM architecture, dependency injection, state management, navigation and unit/UI testing.
+FeedMyRSS is a sample iOS RSS feed viewer application built with Swift and SwiftUI. It demonstrates core iOS development practices, including MVVM architecture, dependency injection, state management, navigation and testing.
 
 | Feeds View | Add New Feed | Items View | Notifications |
 | :-: | :-: | :-: | :-: |
@@ -16,9 +16,6 @@ FeedMyRSS is a sample iOS RSS feed viewer application built with Swift and Swift
 - **Remove Feed**: Users can remove RSS feed from list by swiping left unwanted RSS feed.
 - **Items View**: Users can select an RSS feed from the list to view its latest items in a separate screen.
 - **Article View**: Users can read news article in popup browser view by tapping on relevant RSS feed item.
-- **MVVM Architecture**: Adheres to MVVM for better organization and testability.
-- **Data Persistence**: Stores data locally to persist RSS feeds selection.
-- **Unit and UI Testing**: Includes unit and UI tests for essential components.
 
 ## Requirements
 
@@ -62,6 +59,7 @@ open FeedMyRSS.xcodeproj
 - RSS feed items can be refreshed by pull-to-refresh action.
 ### Notifications
 - Allow notifications to get alerts when new items are available in favourited feeds.
+- Tap on notification banner opens the app with proper feed items displayed
 
 ## Architecture
 This project follows the Model-View-ViewModel (MVVM) pattern for a clean separation of concerns and testable code. The key components of the architecture include:
@@ -69,6 +67,28 @@ This project follows the Model-View-ViewModel (MVVM) pattern for a clean separat
 - **Model**: Defines the data structures for items and any associated properties.
 - **ViewModel**: Manages business logic and state, bridging data and the UI.
 - **View**: SwiftUI views that display data from the ViewModel and handle user interaction.
+
+## Frameworks
+- XML Parser
+- URL Session (foreground and background)
+- WebView
+- Combine
+- Background App Refresh Tasking
+- Local Notifications
+- UserDefaults Data Persistence
+- Navigation Path Routing
+
+## Patterns
+- Enivronment Objects
+- Static Type Methods
+- Singletons
+- Generics
+- Property Wrappers
+- Dependancy Injection
+- State Management
+- Error Handling
+- Custom View Styles
+- Custom View Modifiers
 
 ## Testing
 This app includes unit tests and UI tests to ensure functionality and maintainability. Key tests include:
