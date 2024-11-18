@@ -87,6 +87,7 @@ This project follows the Model-View-ViewModel (MVVM) pattern for a clean separat
 - Dependancy Injection
 - State Management
 - Error Handling
+- Deep Linking
 - Custom View Styles
 - Custom View Modifiers
 
