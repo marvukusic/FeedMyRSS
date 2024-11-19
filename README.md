@@ -83,6 +83,8 @@ This project follows the Model-View-ViewModel (MVVM) pattern for a clean separat
 - Static Type Methods
 - Singletons
 - Generics
+- Delegating
+- Protocol Composition
 - Property Wrappers
 - Dependancy Injection
 - State Management
