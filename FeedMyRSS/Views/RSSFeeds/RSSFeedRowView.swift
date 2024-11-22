@@ -21,9 +21,9 @@ struct RSSFeedRowView: View {
             } placeholder: {
                 ZStack {
                     Image(systemName: "photo.on.rectangle")
-                        .foregroundStyle(.gray)
+                        .foregroundStyle(.secondary)
                     Rectangle()
-                        .fill(Color.gray.opacity(0.3))
+                        .fill(Color.secondary.opacity(0.3))
                         .frame(width: 50, height: 50)
                         .cornerRadius(8)
                 }
@@ -47,7 +47,7 @@ struct RSSFeedRowView: View {
                 feed.isFavourited.toggle()
             }) {
                 Image(systemName: feed.isFavourited ? "star.fill" : "star")
-                    .foregroundColor(feed.isFavourited ? .yellow : .gray)
+                    .foregroundColor(feed.isFavourited ? .yellow : .secondary)
                     .imageScale(.large)
             }
             .buttonStyle(BorderlessButtonStyle())

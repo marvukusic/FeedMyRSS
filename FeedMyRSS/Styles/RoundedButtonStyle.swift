@@ -13,9 +13,9 @@ struct RoundedButtonStyle: ButtonStyle {
             .padding()
             .frame(maxWidth: .infinity)
             .background(Color.blue)
-            .foregroundColor(.white)
+            .foregroundColor(.primary)
             .clipShape(Capsule())
             .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
-            .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
+            .shadow(color: Color(.systemBackground).opacity(0.2), radius: 5, x: 0, y: 5)
     }
 }

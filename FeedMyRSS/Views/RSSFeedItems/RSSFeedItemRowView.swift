@@ -24,9 +24,9 @@ struct RSSFeedItemRowView: View {
             } placeholder: {
                 ZStack {
                     Image(systemName: "photo.on.rectangle")
-                        .foregroundStyle(.gray)
+                        .foregroundStyle(.secondary)
                     Rectangle()
-                        .fill(Color.gray.opacity(0.3))
+                        .fill(Color.secondary.opacity(0.3))
                         .cornerRadius(8)
                         .frame(width: imageSize, height: imageSize)
                 }
