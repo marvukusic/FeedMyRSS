@@ -57,13 +57,13 @@ class RSSFeedsViewModel: ObservableObject {
     }
     
     func loadRSSFeed(from urlString: String) async throws -> RSSFeed {
-        let data = try await networkService.fetchRSSFeedData(from: urlString)
+        let data = try await networkService.fetchData(from: urlString)
         let content = try await parser.parseRSS(data: data)
         return RSSFeed(path: urlString, content: content)
     }
     
     func loadRSSFeedFromBackground(from urlString: String) async throws -> RSSFeed {
-        let data = try await networkService.fetchRSSFeedDataFromBackground(from: urlString)
+        let data = try await networkService.fetchDataFromBackground(from: urlString)
         let content = try await parser.parseRSS(data: data)
         return RSSFeed(path: urlString, content: content)
     }

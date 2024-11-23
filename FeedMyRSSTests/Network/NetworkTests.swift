@@ -40,7 +40,7 @@ struct NetworkTests {
         
         mockSession.data = RSSData
         
-        let response = try await sut.fetchRSSFeedData(from: someUrl)
+        let response = try await sut.fetchData(from: someUrl)
         
         #expect(response == RSSData)
     }
@@ -51,7 +51,7 @@ struct NetworkTests {
         mockSession.error = requestError
         
         do {
-            let _ = try await sut.fetchRSSFeedData(from: someUrl)
+            let _ = try await sut.fetchData(from: someUrl)
         } catch NetworkServiceError.requestFailed(let error) {
             #expect(error as? URLError == requestError)
         } catch {
@@ -64,7 +64,7 @@ struct NetworkTests {
         mockSession.statusCode = 404
         
         do {
-            let _ = try await sut.fetchRSSFeedData(from: someUrl)
+            let _ = try await sut.fetchData(from: someUrl)
             Issue.record("Expected .invalidResponse error, but none was thrown")
         } catch NetworkServiceError.invalidResponse {
             #expect(true)
@@ -75,7 +75,7 @@ struct NetworkTests {
     
     @Test func getRSSFeedData_InvalidURL() async throws {
         do {
-            let _ = try await sut.fetchRSSFeedData(from: invalidUrl)
+            let _ = try await sut.fetchData(from: invalidUrl)
             Issue.record("Expected .invalidURL error, but none was thrown")
         } catch NetworkServiceError.invalidURL {
             #expect(true)

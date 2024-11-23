@@ -11,7 +11,7 @@ import XCTest
 class MockNetworkService: NetworkServiceProtocol {
     var mockData: Data?
     
-    func fetchRSSFeedData(from url: String) async throws -> Data {
+    func fetchData(from url: String) async throws -> Data {
         if let data = mockData {
             return data
         } else {
@@ -19,7 +19,7 @@ class MockNetworkService: NetworkServiceProtocol {
         }
     }
     
-    func fetchRSSFeedDataFromBackground(from urlString: String) async throws -> Data {
+    func fetchDataFromBackground(from urlString: String) async throws -> Data {
         if let data = mockData {
             return data
         } else {

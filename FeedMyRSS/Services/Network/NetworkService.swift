@@ -8,8 +8,8 @@
 import Foundation
 
 protocol NetworkServiceProtocol {
-    func fetchRSSFeedData(from urlString: String) async throws -> Data
-    func fetchRSSFeedDataFromBackground(from urlString: String) async throws -> Data
+    func fetchData(from urlString: String) async throws -> Data
+    func fetchDataFromBackground(from urlString: String) async throws -> Data
 }
 
 class NetworkService: NSObject, NetworkServiceProtocol {
@@ -28,7 +28,7 @@ class NetworkService: NSObject, NetworkServiceProtocol {
         self.session = session
     }
     
-    func fetchRSSFeedData(from urlString: String) async throws(NetworkServiceError) -> Data {
+    func fetchData(from urlString: String) async throws(NetworkServiceError) -> Data {
         guard urlString.isValidURL, let url = URL(string: urlString) else {
             throw .invalidURL
         }
@@ -46,7 +46,7 @@ class NetworkService: NSObject, NetworkServiceProtocol {
         return data
     }
     
-    func fetchRSSFeedDataFromBackground(from urlString: String, onComplete: @escaping CompletionCallback) {
+    func fetchDataFromBackground(from urlString: String, onComplete: @escaping CompletionCallback) {
         self.onComplete = onComplete
         
         guard urlString.isValidURL, let url = URL(string: urlString) else {
@@ -61,9 +61,9 @@ class NetworkService: NSObject, NetworkServiceProtocol {
         task.resume()
     }
     
-    func fetchRSSFeedDataFromBackground(from urlString: String) async throws -> Data {
+    func fetchDataFromBackground(from urlString: String) async throws -> Data {
         try await withCheckedThrowingContinuation { continuation in
-            fetchRSSFeedDataFromBackground(from: urlString) { result in
+            fetchDataFromBackground(from: urlString) { result in
                 continuation.resume(with: result)
             }
         }
