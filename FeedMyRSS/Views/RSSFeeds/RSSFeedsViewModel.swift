@@ -17,7 +17,7 @@ class RSSFeedsViewModel: ObservableObject {
     private let networkService: NetworkServiceProtocol
     private let parser = RSSParser()
     
-    private var subscribers = Set<AnyCancellable>()
+    private var feedSubscription: AnyCancellable?
     
     init(networkService: NetworkServiceProtocol = NetworkService()) {
         self.networkService = networkService
@@ -40,13 +40,12 @@ class RSSFeedsViewModel: ObservableObject {
     func syncStoredData() async {
         await retrieveStoredFeeds()
         
-        $feeds
+        feedSubscription = $feeds
             .removeDuplicates()
             .filter { $0 != self.storedFeeds }
             .sink { [weak self] newValue in
                 self?.storedFeeds = newValue.sorted(by: { $0.isFavourited && !$1.isFavourited })
             }
-            .store(in: &subscribers)
     }
     
     func addURL(_ urlString: String) async throws {
