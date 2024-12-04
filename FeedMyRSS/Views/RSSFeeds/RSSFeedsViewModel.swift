@@ -15,7 +15,6 @@ class RSSFeedsViewModel: ObservableObject {
     @Published var feeds = [RSSFeed]()
     
     private let networkService: NetworkServiceProtocol
-    private let parser = RSSParser()
     
     private var feedSubscription: AnyCancellable?
     
@@ -25,7 +24,7 @@ class RSSFeedsViewModel: ObservableObject {
     
     func checkForNewItems() async {
         for index in feeds.indices {
-            guard let newFeed = try? await loadRSSFeedFromBackground(from: feeds[index].path) else { continue }
+            guard let newFeed = try? await loadRSSFeed(from: feeds[index].path, fromBackground: true) else { continue }
                                
             let newFeedItemsSet = Set<RSSItem>(newFeed.content.items)
             let oldFeedItemsSet = Set<RSSItem>(feeds[index].content.items)
@@ -55,14 +54,11 @@ class RSSFeedsViewModel: ObservableObject {
         await addFeed(feed)
     }
     
-    func loadRSSFeed(from urlString: String) async throws -> RSSFeed {
-        let data = try await networkService.fetchData(from: urlString)
-        let content = try await parser.parseRSS(data: data)
-        return RSSFeed(path: urlString, content: content)
-    }
-    
-    func loadRSSFeedFromBackground(from urlString: String) async throws -> RSSFeed {
-        let data = try await networkService.fetchDataFromBackground(from: urlString)
+    func loadRSSFeed(from urlString: String, fromBackground: Bool = false) async throws -> RSSFeed {
+        let parser = RSSParser()
+        let data = fromBackground ?
+            try await networkService.fetchDataFromBackground(from: urlString) :
+            try await networkService.fetchData(from: urlString)
         let content = try await parser.parseRSS(data: data)
         return RSSFeed(path: urlString, content: content)
     }
